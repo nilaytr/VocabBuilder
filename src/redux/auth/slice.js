@@ -29,7 +29,10 @@ export const authSlice = createSlice({
             .addCase(registerUser.pending, handlePending)
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.user = action.payload.user;
+                state.user = {
+                    name: action.payload.name,
+                    email: action.payload.email,
+                };
                 state.token = action.payload.token;
                 state.isLoggedIn = true;
             })
@@ -38,7 +41,10 @@ export const authSlice = createSlice({
             .addCase(loginUser.pending, handlePending)
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.user = action.payload.user;
+                state.user = {
+                    name: action.payload.name,
+                    email: action.payload.email,
+                };
                 state.token = action.payload.token;
                 state.isLoggedIn = true;
             })
@@ -59,7 +65,10 @@ export const authSlice = createSlice({
             })
             .addCase(refreshUser.fulfilled, (state, action) => {
                 state.isRefreshing = false;
-                state.user = action.payload.user;
+                state.user = {
+                    name: action.payload.name,
+                    email: action.payload.email,
+                };
                 state.isLoggedIn = true;
             })
             .addCase(refreshUser.rejected, handleRejected);
