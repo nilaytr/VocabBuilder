@@ -5,7 +5,8 @@ import {
     updateProfile,
     signOut,
 } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
 import axios from "axios";
 
 axios.defaults.baseURL = "https://vocab-builder-backend.p.goit.global/api/";
@@ -29,6 +30,18 @@ export const registerUser = createAsyncThunk(
             );
             const user = response.user;
             await updateProfile(user, { displayName: name });
+            
+            try {
+                await setDoc(doc(db, "users", user.uid), {
+                    uid: user.uid,
+                    name,
+                    email,
+                    createdAt: new Date(),
+                });
+                console.log("Firestore user added!");
+            } catch (err) {
+                console.error("Firestore error:", err);
+            }
 
             const token = await user.getIdToken();
             setAuthHeader(token);
@@ -41,6 +54,7 @@ export const registerUser = createAsyncThunk(
 
             return apiResponse.data;
         } catch (error) {
+            console.error("Registration error:", error);
             return rejectWithValue(error.message);
         }
     }
