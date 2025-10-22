@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { auth, db } from "../../firebase";
-import { doc, setDoc, addDoc, updateDoc, collection } from "firebase/firestore";
+import { doc, setDoc, addDoc, updateDoc, deleteDoc, collection, serverTimestamp } from "firebase/firestore";
 
 axios.defaults.baseURL = "https://vocab-builder-backend.p.goit.global/api/";
 
@@ -104,6 +104,122 @@ export const editWord = createAsyncThunk(
             }
 
             return editedWord;
+        } catch (error) {
+            return handleAxiosError(error, rejectWithValue);
+        }
+    }
+);
+
+export const fetchAllWords = createAsyncThunk(
+    "words/all",
+    async ({
+        search = "",
+        category = "all",
+        verbType,
+        page = 1,
+        limit = 7
+    } = {}, { rejectWithValue }) => {
+        try {
+            const cleanSearch = search.trim();
+
+            const params = new URLSearchParams();
+            if (cleanSearch) params.append("keyword", cleanSearch);
+            if (page) params.append("page", String(page));
+            if (limit) params.append("limit", String(limit));
+
+            if (category && category !== "all") {
+                params.append("category", category);
+                if (category === "verb" && typeof verbType !== "undefined") {
+                    params.append("isIrregular", String(verbType));
+                }
+            }
+
+            const url = `words/all?${params.toString()}`;
+
+            const response = await axios.get(url);
+            const data = response.data;
+
+            const user = auth.currentUser;
+            if (user) {
+                await addDoc(collection(db, `users/${user.uid}/searchHistory`), {
+                    keyword: cleanSearch || "(empty)",
+                    category,
+                    verbType: typeof verbType !== "undefined" ? verbType : null,
+                    page,
+                    resultCount: data.results?.length || 0,
+                    createdAt: serverTimestamp(),
+                });
+            }
+            return data;
+        } catch (error) {
+            return handleAxiosError(error, rejectWithValue);
+        }
+    }
+);
+
+export const ownWord = createAsyncThunk(
+    "words/own",
+    async ({
+        search = "",
+        category = "all",
+        verbType,
+        page = 1,
+        limit = 7
+    } = {}, { rejectWithValue }) => {
+        try {
+            const cleanSearch = search.trim();
+
+            const params = new URLSearchParams();
+            if (cleanSearch) params.append("keyword", cleanSearch);
+            if (page) params.append("page", String(page));
+            if (limit) params.append("limit", String(limit));
+
+            if (category && category !== "all") {
+                params.append("category", category);
+                if (category === "verb" && typeof verbType !== "undefined") {
+                    params.append("isIrregular", String(verbType));
+                }
+            }
+
+            const url = `words/own?${params.toString()}`;
+
+            const response = await axios.get(url);
+            const data = response.data;
+
+            const user = auth.currentUser;
+            if (user) {
+                await addDoc(collection(db, `users/${user.uid}/ownWordsQueries`), {
+                    keyword: cleanSearch || "(empty)",
+                    category,
+                    verbType: typeof verbType !== "undefined" ? verbType : null,
+                    page,
+                    resultCount: data.results?.length || 0,
+                    createdAt: serverTimestamp(),
+                });
+            }
+            return data;
+        } catch (error) {
+            return handleAxiosError(error, rejectWithValue);
+        }
+    }
+);
+
+export const deleteWord = createAsyncThunk(
+    "words/delete",
+    async (wordId, { rejectWithValue }) => {
+        try {
+            const response = await axios.delete(`words/delete/${wordId}`);
+            const { id, message } = response.data;
+
+            const user = auth.currentUser;
+            if (!user) {
+                return rejectWithValue({ message: "User not authenticated" });
+            }
+
+            const wordRef = doc(db, "users", user.uid, "words", id);
+            await deleteDoc(wordRef);
+
+            return { id, message };
         } catch (error) {
             return handleAxiosError(error, rejectWithValue);
         }
