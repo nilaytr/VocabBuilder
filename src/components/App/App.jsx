@@ -1,7 +1,11 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import { Loader } from "../Loader/Loader";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { refreshUser } from "../../redux/auth/operations";
+import { selectIsRefreshing } from "../../redux/auth/selectors";
+import PrivateRoute from "../../routes/PrivateRoute";
+import RestrictedRoute from "../../routes/RestrictedRoute";
 
 const LoginPage = lazy(() => import('../../pages/LoginPage/LoginPage'));
 const RegisterPage = lazy(() => import('../../pages/RegisterPage/RegisterPage'));
@@ -12,7 +16,14 @@ const TrainingPage = lazy(() => import('../../pages/TrainingPage/TrainingPage'))
 
 function App() {
     const dispatch = useDispatch();
-
+    const isRefreshing = useSelector(selectIsRefreshing);
+    
+    useEffect(() => {
+        dispatch(refreshUser());
+    }, [dispatch]);
+    if (isRefreshing) {
+        return <Loader />;
+    }
 
     return (
         <Suspense fallback={<Loader />}>

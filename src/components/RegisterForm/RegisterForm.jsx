@@ -3,16 +3,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../redux/auth/operations";
 import css from "./RegisterForm.module.css";
 
 const RegisterForm = ({ onSuccess }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
         email: Yup.string().matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "Invalid email adaress.").required("Required"),
-        password: Yup.string().matches(/^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/, "Password must be 7 characters long, contain at least 6 letters and 1 number.").required("Required"),
+        password: Yup.string().matches(/^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/, "Password must contain at least 6 letters and 1 number.").required("Required"),
     });
 
     const {
@@ -31,6 +33,8 @@ const RegisterForm = ({ onSuccess }) => {
     const onSubmit = async (values) => {
         try {
             const result = await dispatch(registerUser(values));
+
+            console.log("Thunk result:", result);
             
             if (result.meta.requestStatus === "fulfilled") {
                 alert("Registration successful!");
@@ -109,6 +113,7 @@ const RegisterForm = ({ onSuccess }) => {
                         )}
                     </div>
                     <button className={css.registerButton} type="submit">Register</button>
+                    <button className={css.login} type="button" onClick={() => navigate("/login")}>Login</button>
                 </form>
             </div>
         </>

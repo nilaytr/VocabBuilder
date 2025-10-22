@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn, selectIsRefreshing } from "../redux/auth/selectors";
-import Loader from "./Loader/Loader";
+import { Loader } from "../components/Loader/Loader";
 
 const RestrictedRoute = ({ children, redirectTo = "/dictionary" }) => {
     const isLoggedIn = useSelector(selectIsLoggedIn);

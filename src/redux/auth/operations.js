@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -7,7 +8,6 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
-import axios from "axios";
 
 axios.defaults.baseURL = "https://vocab-builder-backend.p.goit.global/api/";
 
@@ -74,13 +74,32 @@ export const loginUser = createAsyncThunk(
             const token = await user.getIdToken();
             setAuthHeader(token);
 
+            const userRef = doc(db, "users", user.uid);
+            try {
+                await setDoc(
+                    userRef,
+                    {
+                        uid: user.uid,
+                        name: user.displayName || "Unknown",
+                        email: user.email,
+                        lastLogin: new Date(),
+                    },
+                    { merge: true }
+                );
+                console.log("Firestore user updated or created!");
+            } catch (firestoreError) {
+                console.error("Firestore login update error:", firestoreError);
+            }
+
             const apiResponse = await axios.post("users/signin", {
                 email,
                 password,
             });
 
+            console.log("Login successful:", apiResponse.data);
             return apiResponse.data;
         } catch (error) {
+            console.error("Login error:", error);
             return rejectWithValue(error.message);
         }
     }
