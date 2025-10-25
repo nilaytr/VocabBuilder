@@ -11,7 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./auth/slice";
-//import wordReducer from "./word/slice";
+import wordReducer from "./word/slice";
 
 const authPersistConfig = {
     key: "users",
@@ -21,7 +21,7 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
     users: persistReducer(authPersistConfig, authReducer),
-    //words: wordReducer,
+    words: wordReducer,
 });
 
 export const store = configureStore({

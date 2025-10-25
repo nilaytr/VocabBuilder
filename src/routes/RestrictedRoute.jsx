@@ -4,12 +4,12 @@ import { selectIsLoggedIn, selectIsRefreshing } from "../redux/auth/selectors";
 import { Loader } from "../components/Loader/Loader";
 
 const RestrictedRoute = ({ children, redirectTo = "/dictionary" }) => {
-    const isLoggedIn = useSelector(selectIsLoggedIn);
-    const isRefreshing = useSelector(selectIsRefreshing);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isRefreshing = useSelector(selectIsRefreshing);
 
-    if (isRefreshing) return <Loader />;
+  if (isRefreshing) return <Loader />;
 
-    return isLoggedIn ? <Navigate to={redirectTo} replace /> : children;
+  return isLoggedIn ? <Navigate to={redirectTo} replace /> : children;
 };
 
 export default RestrictedRoute;

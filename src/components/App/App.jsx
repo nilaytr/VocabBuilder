@@ -29,37 +29,32 @@ function App() {
         <Suspense fallback={<Loader />}>
             <Routes>
                 <Route path="/register" element={
-                    <RestrictedRoute
-                        redirectTo="/dictionary"
-                        component={<RegisterPage />}
-                    />
+                    <RestrictedRoute redirectTo="/dictionary">
+                        <RegisterPage />
+                    </RestrictedRoute>
                 } />
                 <Route path="/login" element={
-                    <RestrictedRoute
-                        redirectTo="/dictionary"
-                        component={<LoginPage />}
-                    />
+                    <RestrictedRoute redirectTo="/dictionary">
+                        <LoginPage />
+                    </RestrictedRoute>
                 } />
                 <Route path="/dictionary" element={
-                    <PrivateRoute
-                        redirectTo="/register"
-                        component={<DictionaryPage />}
-                    />
+                    <PrivateRoute redirectTo="/register">
+                        <DictionaryPage />
+                    </PrivateRoute>
                 } />
                 <Route path="/recommend" element={
-                    <PrivateRoute
-                        redirectTo="/register"
-                        component={<RecommendPage />}
-                    />
+                    <PrivateRoute redirectTo="/register">
+                        <RecommendPage />
+                    </PrivateRoute>
                 } />
                 <Route path="/training" element={
-                    <PrivateRoute
-                        redirectTo="/register"
-                        component={<TrainingPage />}
-                    />
+                    <PrivateRoute redirectTo="/register">
+                        <TrainingPage />
+                    </PrivateRoute>
                 } />
                 <Route path="/" element={<Navigate to="/login" />} />
-                <Route path="*" element={<NotFoundPage />} />
+                <Route path="*" element={<NotFoundPage />} />   
             </Routes>
         </Suspense>
     );

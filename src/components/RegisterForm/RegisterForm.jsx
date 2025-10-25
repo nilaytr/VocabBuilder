@@ -13,7 +13,7 @@ const RegisterForm = ({ onSuccess }) => {
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
-        email: Yup.string().matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "Invalid email adaress.").required("Required"),
+        email: Yup.string().matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "Invalid email address.").required("Required"),
         password: Yup.string().matches(/^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/, "Password must contain at least 6 letters and 1 number.").required("Required"),
     });
 
@@ -28,6 +28,7 @@ const RegisterForm = ({ onSuccess }) => {
             email: "",
             password: "",
         },
+        mode: "onChange",
     });
     
     const onSubmit = async (values) => {
@@ -56,7 +57,7 @@ const RegisterForm = ({ onSuccess }) => {
 
     return (
         <>
-            <div>
+            <div className={css.registerForm}>
                 <h1>Register</h1>
                 <p>To start using our services, please fill out the registration form below. All fields are mandatory:</p>
                 <form onSubmit={handleSubmit(onSubmit)}>  

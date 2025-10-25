@@ -12,7 +12,7 @@ const RegisterForm = ({ onSuccess }) => {
     const navigate = useNavigate();
     
     const validationSchema = Yup.object().shape({
-        email: Yup.string().matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "Invalid email adaress.").required("Required"),
+        email: Yup.string().matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "Invalid email address.").required("Required"),
         password: Yup.string().matches(/^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/, "Password must contain at least 6 letters and 1 number.").required("Required"),
     });
 
@@ -26,6 +26,7 @@ const RegisterForm = ({ onSuccess }) => {
             email: "",
             password: "",
         },
+        mode: "onChange",
     });
     
     const onSubmit = async (values) => {

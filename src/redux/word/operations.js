@@ -37,11 +37,20 @@ export const createWord = createAsyncThunk(
             const response = await axios.post("words/create", data);
             const createdWord = response.data;
 
-            await addDoc(collection(db, "words"), {
+            const user = auth.currentUser;
+            if (!user) {
+                return rejectWithValue({ message: "User not authenticated" });
+            }
+
+            const wordRef = doc(db, "users", user.uid, "words", createdWord._id);
+
+            await setDoc(wordRef, {
                 ...data,
-                backendId: createdWord.id || null,
-                createdAt: new Date().toISOString(),
+                backendId: createdWord._id,
+                progress: 0,
+                createdAt: serverTimestamp(),
             });
+
             return createdWord;
         } catch (error) {
             return handleAxiosError(error, rejectWithValue);
@@ -56,7 +65,7 @@ export const addWord = createAsyncThunk(
             const response = await axios.post(`words/add/${wordId}`);
             const addedWord = response.data;
 
-            const user = auth.current;
+            const user = auth.currentUser;
             if (user) {
                 const wordRef = doc(db, "users", user.uid, "words", addedWord._id);
 
@@ -97,7 +106,7 @@ export const editWord = createAsyncThunk(
                     category: editedWord.category,
                     isIrregular: editedWord.isIrregular,
                     progress: editedWord.progress ?? 0,
-                    updatedAt: new Date().toISOString(),
+                    updatedAt: serverTimestamp(),
                 });
             } else {
                 return rejectWithValue({ message: "User not authenticated" });
@@ -220,6 +229,72 @@ export const deleteWord = createAsyncThunk(
             await deleteDoc(wordRef);
 
             return { id, message };
+        } catch (error) {
+            return handleAxiosError(error, rejectWithValue);
+        }
+    }
+);
+
+export const getStatistics = createAsyncThunk(
+    "words/statistics",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get("words/statistics");
+            const { totalCount } = response.data;
+
+            const user = auth.currentUser;
+            if (user) {
+                await addDoc(collection(db, `users/${user.uid}/statisticsHistory`), {
+                    totalCount,
+                    createdAt: serverTimestamp(),
+                });
+            }
+            return { totalCount };
+        } catch (error) {
+            return handleAxiosError(error, rejectWithValue);
+        }
+    }
+);
+
+export const getTasks = createAsyncThunk(
+    "words/tasks",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get("words/tasks");
+            const data = response.data;
+            
+            const user = auth.currentUser;
+            if (user) {
+                await addDoc(collection(db, `users/${user.uid}/tasksHistory`), {
+                    taskCount: data.words?.length || 0,
+                    preview: data.words?.slice(0, 3) || [],
+                    createdAt: serverTimestamp(),
+                });
+            }
+            return data;
+        } catch (error) {
+            return handleAxiosError(error, rejectWithValue);
+        }
+    }
+);
+
+export const addAnswers = createAsyncThunk(
+    "words/answers",
+    async (answers = [], { rejectWithValue }) => {
+        try {
+            const response = await axios.post("words/answers", answers);
+            const result = response.data;
+
+            const user = auth.currentUser;
+            if (user) {
+                await addDoc(collection(db, `users/${user.uid}/answersHistory`), {
+                    answers: result,
+                    totalAnswered: result.length,
+                    correctCount: result.filter(a => a.isDone).length,
+                    createdAt: serverTimestamp(),
+                });
+            }
+            return result;
         } catch (error) {
             return handleAxiosError(error, rejectWithValue);
         }

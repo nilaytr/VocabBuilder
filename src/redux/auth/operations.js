@@ -7,7 +7,7 @@ import {
     signOut,
 } from "firebase/auth";
 import { auth, db } from "../../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, addDoc, collection, serverTimestamp, increment } from "firebase/firestore";
 
 axios.defaults.baseURL = "https://vocab-builder-backend.p.goit.global/api/";
 
@@ -30,18 +30,23 @@ export const registerUser = createAsyncThunk(
             );
             const user = response.user;
             await updateProfile(user, { displayName: name });
+
+            const userRef = doc(db, "users", user.uid);
+            await setDoc(userRef, {
+                uid: user.uid,
+                name,
+                email,
+                emailVerified: user.emailVerified,
+                provider: user.providerData[0]?.providerId || "password",
+                createdAt: serverTimestamp(),
+                lastLogin: serverTimestamp(),
+                loginCount: 1,
+            });
             
-            try {
-                await setDoc(doc(db, "users", user.uid), {
-                    uid: user.uid,
-                    name,
-                    email,
-                    createdAt: new Date(),
-                });
-                console.log("Firestore user added!");
-            } catch (err) {
-                console.error("Firestore error:", err);
-            }
+            await addDoc(collection(db, `users/${user.uid}/activity`), {
+                type: "signup",
+                timestamp: serverTimestamp(),
+            });
 
             const token = await user.getIdToken();
             setAuthHeader(token);
@@ -52,7 +57,7 @@ export const registerUser = createAsyncThunk(
                 password,
             });
 
-            return apiResponse.data;
+            return { ...apiResponse.data, token };
         } catch (error) {
             console.error("Registration error:", error);
             return rejectWithValue(error.message);
@@ -79,10 +84,8 @@ export const loginUser = createAsyncThunk(
                 await setDoc(
                     userRef,
                     {
-                        uid: user.uid,
-                        name: user.displayName || "Unknown",
-                        email: user.email,
-                        lastLogin: new Date(),
+                        lastLogin: serverTimestamp(),
+                        loginCount: increment(1),
                     },
                     { merge: true }
                 );
@@ -91,13 +94,18 @@ export const loginUser = createAsyncThunk(
                 console.error("Firestore login update error:", firestoreError);
             }
 
+            await addDoc(collection(db, `users/${user.uid}/activity`), {
+                type: "login",
+                timestamp: serverTimestamp(),
+            });
+
             const apiResponse = await axios.post("users/signin", {
                 email,
                 password,
             });
 
             console.log("Login successful:", apiResponse.data);
-            return apiResponse.data;
+            return { ...apiResponse.data, token };
         } catch (error) {
             console.error("Login error:", error);
             return rejectWithValue(error.message);
@@ -109,10 +117,21 @@ export const logoutUser = createAsyncThunk(
     "users/signout",
     async (_, { rejectWithValue }) => {
         try {
-            await signOut(auth);
+            const user = auth.currentUser;
+
             await axios.post("users/signout");
+            await signOut(auth);
 
             clearAuthHeader();
+
+            if (user) {
+                await addDoc(collection(db, `users/${user.uid}/activity`), {
+                    type: "logout",
+                    timestamp: serverTimestamp(),
+                });
+            }
+            
+            return { message: "User signed out successfully" };
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -138,7 +157,7 @@ export const refreshUser = createAsyncThunk(
         const persistedToken = state.users.token;
 
         if (!persistedToken) {
-            return thunkAPI.rejectWithValue("Unable to fetch user");
+            return thunkAPI.rejectWithValue("No token found");
         }
 
         try {

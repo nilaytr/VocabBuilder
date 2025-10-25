@@ -33,7 +33,7 @@ export const authSlice = createSlice({
                     name: action.payload.name,
                     email: action.payload.email,
                 };
-                state.token = action.payload.token;
+                state.token = action.payload.token || null;
                 state.isLoggedIn = true;
             })
             .addCase(registerUser.rejected, handleRejected)
@@ -45,7 +45,7 @@ export const authSlice = createSlice({
                     name: action.payload.name,
                     email: action.payload.email,
                 };
-                state.token = action.payload.token;
+                state.token = action.payload.token || null;
                 state.isLoggedIn = true;
             })
             .addCase(loginUser.rejected, handleRejected)
