@@ -2,20 +2,36 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { auth, db } from "../../firebase";
 import { doc, setDoc, addDoc, updateDoc, deleteDoc, collection, serverTimestamp } from "firebase/firestore";
+import toast, { Toaster } from 'react-hot-toast';
 
 axios.defaults.baseURL = "https://vocab-builder-backend.p.goit.global/api/";
 
-const handleAxiosError = (error, rejectWithValue) => {
+const handleError = (error, rejectWithValue) => {
+    let message = error.response?.data?.message || error.message || "An unexpected error occurred. Please try again.";
+    
     if (error.response) {
-        return rejectWithValue({
-            status: error.response.status,
-            message: error.response.data?.message || error.response.statusText
-        });
-    } else if (error.request) {
-        return rejectWithValue({ message: "No response from server" });
-    } else {
-        return rejectWithValue({ message: error.message });
+        switch (error.response.status) {
+            case 400:
+                message = "Bad request. Please check your input.";
+                break;
+            case 404:
+                message = "Service not found.";
+                break;
+            case 401:
+                message = "Data not found";
+                break;
+            case 409:
+                message = "Such a word already exists";
+                break;
+            case 500:
+                message = "Server error. Something went wrong on our end. Please try again later.";
+                break;
+            default:
+                message = error.response.data?.message || message;
+        }
     }
+    toast.error(message);
+    return rejectWithValue(message);
 };
 
 export const fetchCategories = createAsyncThunk(
@@ -25,7 +41,7 @@ export const fetchCategories = createAsyncThunk(
             const response = await axios.get("words/categories");
             return response.data;
         } catch (error) {
-            return handleAxiosError(error, rejectWithValue);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -53,7 +69,7 @@ export const createWord = createAsyncThunk(
 
             return createdWord;
         } catch (error) {
-            return handleAxiosError(error, rejectWithValue);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -76,7 +92,7 @@ export const addWord = createAsyncThunk(
                     isIrregular: addedWord.isIrregular,
                     owner: addedWord.owner,
                     progress: addedWord.progress ?? 0,
-                    createdAt: new Date().toISOString(),
+                    createdAt: serverTimestamp(),
                 });
             } else {
                 return rejectWithValue({ message: "User not authenticated" });
@@ -84,7 +100,7 @@ export const addWord = createAsyncThunk(
 
             return addedWord;
         } catch (error) {
-            return handleAxiosError(error, rejectWithValue);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -114,7 +130,7 @@ export const editWord = createAsyncThunk(
 
             return editedWord;
         } catch (error) {
-            return handleAxiosError(error, rejectWithValue);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -161,7 +177,7 @@ export const fetchAllWords = createAsyncThunk(
             }
             return data;
         } catch (error) {
-            return handleAxiosError(error, rejectWithValue);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -208,7 +224,7 @@ export const ownWord = createAsyncThunk(
             }
             return data;
         } catch (error) {
-            return handleAxiosError(error, rejectWithValue);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -230,7 +246,7 @@ export const deleteWord = createAsyncThunk(
 
             return { id, message };
         } catch (error) {
-            return handleAxiosError(error, rejectWithValue);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -251,7 +267,7 @@ export const getStatistics = createAsyncThunk(
             }
             return { totalCount };
         } catch (error) {
-            return handleAxiosError(error, rejectWithValue);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -273,7 +289,7 @@ export const getTasks = createAsyncThunk(
             }
             return data;
         } catch (error) {
-            return handleAxiosError(error, rejectWithValue);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -296,7 +312,7 @@ export const addAnswers = createAsyncThunk(
             }
             return result;
         } catch (error) {
-            return handleAxiosError(error, rejectWithValue);
+            return handleError(error, rejectWithValue);
         }
     }
 );

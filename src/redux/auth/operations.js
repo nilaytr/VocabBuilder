@@ -4,10 +4,10 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     updateProfile,
-    signOut,
 } from "firebase/auth";
 import { auth, db } from "../../firebase";
 import { doc, setDoc, addDoc, collection, serverTimestamp, increment } from "firebase/firestore";
+import toast, { Toaster } from 'react-hot-toast';
 
 axios.defaults.baseURL = "https://vocab-builder-backend.p.goit.global/api/";
 
@@ -17,6 +17,34 @@ const setAuthHeader = (token) => {
 
 const clearAuthHeader = () => {
     axios.defaults.headers.common.Authorization = "";
+};
+
+const handleError = (error, rejectWithValue) => {
+    let message = error.response?.data?.message || error.message || "An unexpected error occurred. Please try again.";
+
+    if (error.response) {
+        switch (error.response.status) {
+            case 400:
+                message = "Bad request. Please check your input.";
+                break;
+            case 404:
+                message = "Service not found.";
+                break;
+            case 401:
+                message = "Email or password invalid";
+                break;
+            case 409:
+                message = "Such email already exists";
+                break;
+            case 500:
+                message = "Server error. Something went wrong on our end. Please try again later.";
+                break;
+            default:
+                message = error.response.data?.message || message;
+        }
+    }
+    toast.error(message);
+    return rejectWithValue(message);
 };
 
 export const registerUser = createAsyncThunk(
@@ -59,8 +87,7 @@ export const registerUser = createAsyncThunk(
 
             return { ...apiResponse.data, token };
         } catch (error) {
-            console.error("Registration error:", error);
-            return rejectWithValue(error.message);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -107,36 +134,36 @@ export const loginUser = createAsyncThunk(
             console.log("Login successful:", apiResponse.data);
             return { ...apiResponse.data, token };
         } catch (error) {
-            console.error("Login error:", error);
-            return rejectWithValue(error.message);
+            return handleError(error, rejectWithValue);
         }
     }
 );
 
 export const logoutUser = createAsyncThunk(
-    "users/signout",
-    async (_, { rejectWithValue }) => {
-        try {
-            const user = auth.currentUser;
+  "users/signout",
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const state = getState();
+      const persistedToken = state.auth.token;
 
-            await axios.post("users/signout");
-            await signOut(auth);
+      if (!persistedToken) {
+        return rejectWithValue("No token found for logout");
+      }
 
-            clearAuthHeader();
+      axios.defaults.headers.common.Authorization = `Bearer ${persistedToken}`;
 
-            if (user) {
-                await addDoc(collection(db, `users/${user.uid}/activity`), {
-                    type: "logout",
-                    timestamp: serverTimestamp(),
-                });
-            }
-            
-            return { message: "User signed out successfully" };
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
+      await axios.post("/users/signout");
+
+        clearAuthHeader();
+
+      return { message: "User signed out successfully" };
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      return rejectWithValue(message);
     }
+  }
 );
+
 
 export const getCurrentUser = createAsyncThunk(
     "users/current",
@@ -145,7 +172,7 @@ export const getCurrentUser = createAsyncThunk(
             const response = await axios.get("users/current");
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.message);
+            return handleError(error, rejectWithValue);
         }
     }
 );
@@ -155,11 +182,11 @@ export const refreshUser = createAsyncThunk(
     async (_, thunkAPI) => {
         const state = thunkAPI.getState();
         const persistedToken = state.users.token;
-
+        
         if (!persistedToken) {
             return thunkAPI.rejectWithValue("No token found");
         }
-
+        
         try {
             setAuthHeader(persistedToken);
             const response = await axios.get("users/current");

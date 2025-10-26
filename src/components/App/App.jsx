@@ -13,6 +13,7 @@ const NotFoundPage = lazy(() => import('../../pages/NotFoundPage/NotFoundPage'))
 const DictionaryPage = lazy(() => import('../../pages/DictionaryPage/DictionaryPage'));
 const RecommendPage = lazy(() => import('../../pages/RecommendPage/RecommendPage'));
 const TrainingPage = lazy(() => import('../../pages/TrainingPage/TrainingPage'));
+const Layout = lazy(() => import('../../components/Layout/Layout'));
 
 function App() {
     const dispatch = useDispatch();
@@ -28,33 +29,35 @@ function App() {
     return (
         <Suspense fallback={<Loader />}>
             <Routes>
-                <Route path="/register" element={
-                    <RestrictedRoute redirectTo="/dictionary">
-                        <RegisterPage />
-                    </RestrictedRoute>
-                } />
-                <Route path="/login" element={
-                    <RestrictedRoute redirectTo="/dictionary">
-                        <LoginPage />
-                    </RestrictedRoute>
-                } />
-                <Route path="/dictionary" element={
-                    <PrivateRoute redirectTo="/register">
-                        <DictionaryPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/recommend" element={
-                    <PrivateRoute redirectTo="/register">
-                        <RecommendPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/training" element={
-                    <PrivateRoute redirectTo="/register">
-                        <TrainingPage />
-                    </PrivateRoute>
-                } />
-                <Route path="/" element={<Navigate to="/login" />} />
-                <Route path="*" element={<NotFoundPage />} />   
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Navigate to="login" />} />
+                    <Route path="/register" element={
+                        <RestrictedRoute redirectTo="/dictionary">
+                            <RegisterPage />
+                        </RestrictedRoute>
+                    } />
+                    <Route path="/login" element={
+                        <RestrictedRoute redirectTo="/dictionary">
+                            <LoginPage />
+                        </RestrictedRoute>
+                    } />
+                    <Route path="/dictionary" element={
+                        <PrivateRoute redirectTo="/register">
+                            <DictionaryPage />
+                        </PrivateRoute>
+                    } />
+                    <Route path="/recommend" element={
+                        <PrivateRoute redirectTo="/register">
+                            <RecommendPage />
+                        </PrivateRoute>
+                    } />
+                    <Route path="/training" element={
+                        <PrivateRoute redirectTo="/register">
+                            <TrainingPage />
+                        </PrivateRoute>
+                    } />
+                    <Route path="*" element={<NotFoundPage />} />
+                </Route>
             </Routes>
         </Suspense>
     );
