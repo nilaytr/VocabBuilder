@@ -1,12 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    updateProfile,
-} from "firebase/auth";
-import { auth, db } from "../../firebase";
-import { doc, setDoc, addDoc, collection, serverTimestamp, increment } from "firebase/firestore";
 import toast, { Toaster } from 'react-hot-toast';
 
 axios.defaults.baseURL = "https://vocab-builder-backend.p.goit.global/api/";
@@ -34,7 +27,7 @@ const handleError = (error, rejectWithValue) => {
                 message = "Email or password invalid";
                 break;
             case 409:
-                message = "Such email already exists";
+                message = "User with this email already exists.";
                 break;
             case 500:
                 message = "Server error. Something went wrong on our end. Please try again later.";
@@ -48,44 +41,19 @@ const handleError = (error, rejectWithValue) => {
 };
 
 export const registerUser = createAsyncThunk(
-    "users/signup",
+    "users/register",
     async ({ name, email, password }, { rejectWithValue }) => {
         try {
-            const response = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password,
-            );
-            const user = response.user;
-            await updateProfile(user, { displayName: name });
-
-            const userRef = doc(db, "users", user.uid);
-            await setDoc(userRef, {
-                uid: user.uid,
+            const response = await axios.post("users/signup", {
                 name,
                 email,
-                emailVerified: user.emailVerified,
-                provider: user.providerData[0]?.providerId || "password",
-                createdAt: serverTimestamp(),
-                lastLogin: serverTimestamp(),
-                loginCount: 1,
+                password,
             });
             
-            await addDoc(collection(db, `users/${user.uid}/activity`), {
-                type: "signup",
-                timestamp: serverTimestamp(),
-            });
-
-            const token = await user.getIdToken();
-            setAuthHeader(token);
-
-            const apiResponse = await axios.post("users/signup", {
-                name,
-                email,
-                password,
-            });
-
-            return { ...apiResponse.data, token };
+            setAuthHeader(response.data.token);
+            
+            toast.success("Registration successful!");
+            return response.data;
         } catch (error) {
             return handleError(error, rejectWithValue);
         }
@@ -93,46 +61,15 @@ export const registerUser = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk(
-    "users/signin",
+    "users/login",
     async ({ email, password }, { rejectWithValue }) => {
         try {
-            const response = await signInWithEmailAndPassword(
-                auth,
-                email,
-                password,
-            );
-            const user = response.user;
+            const response = await axios.post("users/signin", { email, password });
+            
+            setAuthHeader(response.data.token);
 
-            const token = await user.getIdToken();
-            setAuthHeader(token);
-
-            const userRef = doc(db, "users", user.uid);
-            try {
-                await setDoc(
-                    userRef,
-                    {
-                        lastLogin: serverTimestamp(),
-                        loginCount: increment(1),
-                    },
-                    { merge: true }
-                );
-                console.log("Firestore user updated or created!");
-            } catch (firestoreError) {
-                console.error("Firestore login update error:", firestoreError);
-            }
-
-            await addDoc(collection(db, `users/${user.uid}/activity`), {
-                type: "login",
-                timestamp: serverTimestamp(),
-            });
-
-            const apiResponse = await axios.post("users/signin", {
-                email,
-                password,
-            });
-
-            console.log("Login successful:", apiResponse.data);
-            return { ...apiResponse.data, token };
+            toast.success("Login successful!");
+            return response.data;
         } catch (error) {
             return handleError(error, rejectWithValue);
         }
@@ -140,35 +77,42 @@ export const loginUser = createAsyncThunk(
 );
 
 export const logoutUser = createAsyncThunk(
-  "users/signout",
-  async (_, { rejectWithValue, getState }) => {
-    try {
-      const state = getState();
-      const persistedToken = state.auth.token;
-
-      if (!persistedToken) {
-        return rejectWithValue("No token found for logout");
-      }
-
-      axios.defaults.headers.common.Authorization = `Bearer ${persistedToken}`;
-
-      await axios.post("/users/signout");
-
-        clearAuthHeader();
-
-      return { message: "User signed out successfully" };
-    } catch (error) {
-      const message = error.response?.data?.message || error.message;
-      return rejectWithValue(message);
+    "users/logout",
+    async (_, { rejectWithValue, getState }) => {
+        try {
+            const state = getState();
+            const token = state.users.token;
+            
+            if (!token) {
+                return rejectWithValue("No token found for logout.");
+            }
+            
+            setAuthHeader(token);
+            
+            await axios.post("users/signout");
+            clearAuthHeader();
+            
+            toast.success("Logged out successfully!");
+            return { message: "User signed out successfully" };
+        } catch (error) {
+            return handleError(error, rejectWithValue);
+        }
     }
-  }
 );
 
-
 export const getCurrentUser = createAsyncThunk(
-    "users/current",
-    async (_, { rejectWithValue }) => {
+    "users/currentUser",
+    async (_, { rejectWithValue, getState }) => {
         try {
+            const state = getState();
+            const token = state.users.token;
+            
+            if (!token) {
+                return rejectWithValue("No token found.");
+            }
+            
+            setAuthHeader(token);
+
             const response = await axios.get("users/current");
             return response.data;
         } catch (error) {
@@ -183,12 +127,13 @@ export const refreshUser = createAsyncThunk(
         const state = thunkAPI.getState();
         const persistedToken = state.users.token;
         
-        if (!persistedToken) {
-            return thunkAPI.rejectWithValue("No token found");
+        if (persistedToken === null) {
+            return thunkAPI.rejectWithValue("Unable to fetch user");
         }
         
         try {
             setAuthHeader(persistedToken);
+
             const response = await axios.get("users/current");
             return response.data;
         } catch (error) {

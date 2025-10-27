@@ -1,10 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { auth, db } from "../../firebase";
-import { doc, setDoc, addDoc, updateDoc, deleteDoc, collection, serverTimestamp } from "firebase/firestore";
 import toast, { Toaster } from 'react-hot-toast';
 
 axios.defaults.baseURL = "https://vocab-builder-backend.p.goit.global/api/";
+
+const setAuthHeader = (token) => {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+};
 
 const handleError = (error, rejectWithValue) => {
     let message = error.response?.data?.message || error.message || "An unexpected error occurred. Please try again.";
@@ -18,10 +20,10 @@ const handleError = (error, rejectWithValue) => {
                 message = "Service not found.";
                 break;
             case 401:
-                message = "Data not found";
+                message = "Email or password invalid";
                 break;
             case 409:
-                message = "Such a word already exists";
+                message = "User with this email already exists.";
                 break;
             case 500:
                 message = "Server error. Something went wrong on our end. Please try again later.";
@@ -36,10 +38,13 @@ const handleError = (error, rejectWithValue) => {
 
 export const fetchCategories = createAsyncThunk(
     "words/categories",
-    async (_, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState }) => {
         try {
-            const response = await axios.get("words/categories");
-            return response.data;
+            const token = getState().users.token;
+            if (token) setAuthHeader(token);
+            
+            const { data } = await axios.get("words/categories");
+            return data;
         } catch (error) {
             return handleError(error, rejectWithValue);
         }
@@ -48,26 +53,14 @@ export const fetchCategories = createAsyncThunk(
 
 export const createWord = createAsyncThunk(
     "words/create",
-    async (data, { rejectWithValue }) => {
+    async (wordData, { rejectWithValue, getState }) => {
         try {
-            const response = await axios.post("words/create", data);
-            const createdWord = response.data;
-
-            const user = auth.currentUser;
-            if (!user) {
-                return rejectWithValue({ message: "User not authenticated" });
-            }
-
-            const wordRef = doc(db, "users", user.uid, "words", createdWord._id);
-
-            await setDoc(wordRef, {
-                ...data,
-                backendId: createdWord._id,
-                progress: 0,
-                createdAt: serverTimestamp(),
-            });
-
-            return createdWord;
+            const token = getState().users.token;
+            if (token) setAuthHeader(token);
+            
+            const { data } = await axios.post("words/create", wordData);
+            toast.success("Word created successfully!");
+            return data;
         } catch (error) {
             return handleError(error, rejectWithValue);
         }
@@ -76,29 +69,14 @@ export const createWord = createAsyncThunk(
 
 export const addWord = createAsyncThunk(
     "words/add",
-    async (wordId, { rejectWithValue }) => {
+    async (wordId, { rejectWithValue, getState }) => {
         try {
-            const response = await axios.post(`words/add/${wordId}`);
-            const addedWord = response.data;
-
-            const user = auth.currentUser;
-            if (user) {
-                const wordRef = doc(db, "users", user.uid, "words", addedWord._id);
-
-                await setDoc(wordRef, {
-                    en: addedWord.en,
-                    ua: addedWord.ua,
-                    category: addedWord.category,
-                    isIrregular: addedWord.isIrregular,
-                    owner: addedWord.owner,
-                    progress: addedWord.progress ?? 0,
-                    createdAt: serverTimestamp(),
-                });
-            } else {
-                return rejectWithValue({ message: "User not authenticated" });
-            }
-
-            return addedWord;
+            const token = getState().users.token;
+            if (token) setAuthHeader(token);
+            
+            const { data } = await axios.post(`words/add/${wordId}`);
+            toast.success("Word added successfully!");
+            return data;
         } catch (error) {
             return handleError(error, rejectWithValue);
         }
@@ -107,28 +85,14 @@ export const addWord = createAsyncThunk(
 
 export const editWord = createAsyncThunk(
     "words/edit",
-    async ({ wordId, updatedData }, { rejectWithValue }) => {
+    async ({ wordId, updatedData }, { rejectWithValue, getState }) => {
         try {
-            const response = await axios.patch(`words/edit/${wordId}`, updatedData);
-            const editedWord = response.data;
-
-            const user = auth.currentUser;
-            if (user) {
-                const wordRef = doc(db, "users", user.uid, "words", editedWord._id);
-
-                await updateDoc(wordRef, {
-                    en: editedWord.en,
-                    ua: editedWord.ua,
-                    category: editedWord.category,
-                    isIrregular: editedWord.isIrregular,
-                    progress: editedWord.progress ?? 0,
-                    updatedAt: serverTimestamp(),
-                });
-            } else {
-                return rejectWithValue({ message: "User not authenticated" });
-            }
-
-            return editedWord;
+            const token = getState().users.token;
+            if (token) setAuthHeader(token);
+            
+            const { data } = await axios.patch(`words/edit/${wordId}`, updatedData);
+            toast.success("Word updated successfully!");
+            return data;
         } catch (error) {
             return handleError(error, rejectWithValue);
         }
@@ -143,38 +107,21 @@ export const fetchAllWords = createAsyncThunk(
         verbType,
         page = 1,
         limit = 7
-    } = {}, { rejectWithValue }) => {
+    } = {}, { rejectWithValue, getState }) => {
         try {
-            const cleanSearch = search.trim();
-
+            const token = getState().users.token;
+            if (token) setAuthHeader(token);
+            
             const params = new URLSearchParams();
-            if (cleanSearch) params.append("keyword", cleanSearch);
-            if (page) params.append("page", String(page));
-            if (limit) params.append("limit", String(limit));
-
-            if (category && category !== "all") {
-                params.append("category", category);
-                if (category === "verb" && typeof verbType !== "undefined") {
-                    params.append("isIrregular", String(verbType));
-                }
-            }
-
-            const url = `words/all?${params.toString()}`;
-
-            const response = await axios.get(url);
-            const data = response.data;
-
-            const user = auth.currentUser;
-            if (user) {
-                await addDoc(collection(db, `users/${user.uid}/searchHistory`), {
-                    keyword: cleanSearch || "(empty)",
-                    category,
-                    verbType: typeof verbType !== "undefined" ? verbType : null,
-                    page,
-                    resultCount: data.results?.length || 0,
-                    createdAt: serverTimestamp(),
-                });
-            }
+            if (search.trim()) params.append("keyword", search.trim());
+            if (category && category !== "all") params.append("category", category);
+            if (category === "verb" && typeof verbType !== "undefined");
+            
+            params.append("isIrregular", String(verbType));
+            params.append("page", String(page));
+            params.append("limit", String(limit));
+            
+            const { data } = await axios.get(`words/all?${params.toString()}`);
             return data;
         } catch (error) {
             return handleError(error, rejectWithValue);
@@ -190,38 +137,21 @@ export const ownWord = createAsyncThunk(
         verbType,
         page = 1,
         limit = 7
-    } = {}, { rejectWithValue }) => {
+    } = {}, { rejectWithValue, getState }) => {
         try {
-            const cleanSearch = search.trim();
-
+            const token = getState().users.token;
+            if (token) setAuthHeader(token);
             const params = new URLSearchParams();
-            if (cleanSearch) params.append("keyword", cleanSearch);
-            if (page) params.append("page", String(page));
-            if (limit) params.append("limit", String(limit));
 
-            if (category && category !== "all") {
-                params.append("category", category);
-                if (category === "verb" && typeof verbType !== "undefined") {
-                    params.append("isIrregular", String(verbType));
-                }
-            }
-
-            const url = `words/own?${params.toString()}`;
-
-            const response = await axios.get(url);
-            const data = response.data;
-
-            const user = auth.currentUser;
-            if (user) {
-                await addDoc(collection(db, `users/${user.uid}/ownWordsQueries`), {
-                    keyword: cleanSearch || "(empty)",
-                    category,
-                    verbType: typeof verbType !== "undefined" ? verbType : null,
-                    page,
-                    resultCount: data.results?.length || 0,
-                    createdAt: serverTimestamp(),
-                });
-            }
+            if (search.trim()) params.append("keyword", search.trim());
+            if (category && category !== "all") params.append("category", category);
+            if (category === "verb" && typeof verbType !== "undefined");
+                
+            params.append("isIrregular", String(verbType));
+            params.append("page", String(page));
+            params.append("limit", String(limit));
+            
+            const { data } = await axios.get(`words/own?${params.toString()}`);
             return data;
         } catch (error) {
             return handleError(error, rejectWithValue);
@@ -231,20 +161,14 @@ export const ownWord = createAsyncThunk(
 
 export const deleteWord = createAsyncThunk(
     "words/delete",
-    async (wordId, { rejectWithValue }) => {
+    async (wordId, { rejectWithValue, getState }) => {
         try {
-            const response = await axios.delete(`words/delete/${wordId}`);
-            const { id, message } = response.data;
-
-            const user = auth.currentUser;
-            if (!user) {
-                return rejectWithValue({ message: "User not authenticated" });
-            }
-
-            const wordRef = doc(db, "users", user.uid, "words", id);
-            await deleteDoc(wordRef);
-
-            return { id, message };
+            const token = getState().users.token;
+            if (token) setAuthHeader(token);
+            
+            const { data } = await axios.delete(`words/delete/${wordId}`);
+            toast.success("Word deleted successfully!");
+            return data;
         } catch (error) {
             return handleError(error, rejectWithValue);
         }
@@ -253,19 +177,13 @@ export const deleteWord = createAsyncThunk(
 
 export const getStatistics = createAsyncThunk(
     "words/statistics",
-    async (_, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState }) => {
         try {
-            const response = await axios.get("words/statistics");
-            const { totalCount } = response.data;
-
-            const user = auth.currentUser;
-            if (user) {
-                await addDoc(collection(db, `users/${user.uid}/statisticsHistory`), {
-                    totalCount,
-                    createdAt: serverTimestamp(),
-                });
-            }
-            return { totalCount };
+            const token = getState().users.token;
+            if (token) setAuthHeader(token);
+            
+            const { data } = await axios.get("words/statistics");
+            return data;
         } catch (error) {
             return handleError(error, rejectWithValue);
         }
@@ -274,19 +192,12 @@ export const getStatistics = createAsyncThunk(
 
 export const getTasks = createAsyncThunk(
     "words/tasks",
-    async (_, { rejectWithValue }) => {
+    async (_, { rejectWithValue, getState }) => {
         try {
-            const response = await axios.get("words/tasks");
-            const data = response.data;
+            const token = getState().users.token;
+            if (token) setAuthHeader(token);
             
-            const user = auth.currentUser;
-            if (user) {
-                await addDoc(collection(db, `users/${user.uid}/tasksHistory`), {
-                    taskCount: data.words?.length || 0,
-                    preview: data.words?.slice(0, 3) || [],
-                    createdAt: serverTimestamp(),
-                });
-            }
+            const { data } = await axios.get("words/tasks");
             return data;
         } catch (error) {
             return handleError(error, rejectWithValue);
@@ -296,21 +207,14 @@ export const getTasks = createAsyncThunk(
 
 export const addAnswers = createAsyncThunk(
     "words/answers",
-    async (answers = [], { rejectWithValue }) => {
+    async (answers = [], { rejectWithValue, getState }) => {
         try {
-            const response = await axios.post("words/answers", answers);
-            const result = response.data;
-
-            const user = auth.currentUser;
-            if (user) {
-                await addDoc(collection(db, `users/${user.uid}/answersHistory`), {
-                    answers: result,
-                    totalAnswered: result.length,
-                    correctCount: result.filter(a => a.isDone).length,
-                    createdAt: serverTimestamp(),
-                });
-            }
-            return result;
+            const token = getState().users.token;
+            if (token) setAuthHeader(token);
+            
+            const { data } = await axios.post("words/answers", answers);
+            toast.success("Training results submitted!");
+            return data;
         } catch (error) {
             return handleError(error, rejectWithValue);
         }

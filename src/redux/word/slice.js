@@ -119,7 +119,7 @@ const wordSlice = createSlice({
             .addCase(addAnswers.pending, handlePending)
             .addCase(addAnswers.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.result = [action.payload, ...state.result];
+                state.result = [...action.payload, ...state.result];
             })
             .addCase(addAnswers.rejected, handleRejected)
     },
