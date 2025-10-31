@@ -41,7 +41,7 @@ const handleError = (error, rejectWithValue) => {
 };
 
 export const registerUser = createAsyncThunk(
-    "users/register",
+    "users/signup",
     async ({ name, email, password }, { rejectWithValue }) => {
         try {
             const response = await axios.post("users/signup", {
@@ -61,7 +61,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk(
-    "users/login",
+    "users/signin",
     async ({ email, password }, { rejectWithValue }) => {
         try {
             const response = await axios.post("users/signin", { email, password });
@@ -101,7 +101,7 @@ export const logoutUser = createAsyncThunk(
 );
 
 export const getCurrentUser = createAsyncThunk(
-    "users/currentUser",
+    "users/current",
     async (_, { rejectWithValue, getState }) => {
         try {
             const state = getState();
