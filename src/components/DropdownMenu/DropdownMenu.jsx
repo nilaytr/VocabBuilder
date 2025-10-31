@@ -16,8 +16,8 @@ const DropDownMenu = ({
     };
     
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
+        const handleClickOutside = (e) => {
+            if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
                 setIsOpen(false);
             }
         };
