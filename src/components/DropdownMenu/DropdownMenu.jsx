@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+//import css from "./DropdownMenu.module.css";
 
-const DropDownMenu = ({
+const DropdownMenu = ({
     options,
     defaultOption,
     onSelect,
@@ -52,4 +53,4 @@ const DropDownMenu = ({
     );
 };
 
-export default DropDownMenu;
+export default DropdownMenu;
