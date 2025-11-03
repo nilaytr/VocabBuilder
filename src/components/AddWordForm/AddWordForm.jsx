@@ -85,7 +85,7 @@ const AddWordForm = () => {
                 <img src="/icons/plus.svg" alt="plus" />
             </button>
             {isModalOpen && (
-                <Modal onClose={handleCloseModal}>
+                <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                     <div>
                         <h2>Add word</h2>
                         <p>Adding a new word to the dictionary is an important step in enriching the language base and expanding the vocabulary.</p>

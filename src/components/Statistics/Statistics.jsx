@@ -15,7 +15,7 @@ const Statistics = () => {
     return (
         <div>
             <p>To study:</p>
-            <span>{statistics}</span>
+            <span>{statistics?.totalCount}</span>
         </div>
     );
 };

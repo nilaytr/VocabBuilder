@@ -141,14 +141,16 @@ export const ownWord = createAsyncThunk(
         try {
             const token = getState().users.token;
             if (token) setAuthHeader(token);
+            
+            const safePage = page ?? 1;
             const params = new URLSearchParams();
-
+            
             if (search.trim()) params.append("keyword", search.trim());
             if (category && category !== "all") params.append("category", category);
-            if (category === "verb" && typeof verbType !== "undefined");
-                
-            params.append("isIrregular", String(verbType));
-            params.append("page", String(page));
+            if (category === "verb" && typeof verbType !== "undefined") {
+                params.append("isIrregular", String(verbType));
+            }
+            params.append("page", String(safePage));
             params.append("limit", String(limit));
             
             const { data } = await axios.get(`words/own?${params.toString()}`);

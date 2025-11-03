@@ -1,7 +1,7 @@
 import TrainingRoom from "../../components/TrainingRoom/TrainingRoom";
 import EmptyTraining from "../../components/EmptyTraining/EmptyTraining";
 
-const DictionaryPage = () => {
+const TrainingPage = () => {
     return (
         <div>
             <TrainingRoom />
@@ -10,4 +10,4 @@ const DictionaryPage = () => {
     );
 };
 
-export default DictionaryPage;
+export default TrainingPage;
