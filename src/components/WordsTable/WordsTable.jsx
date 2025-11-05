@@ -33,7 +33,7 @@ const WordsTable = ({ words, handleActions, actionType }) => {
             }),
         ];
         
-        if (actionType === "recommend") {
+        if (actionType === "recommend" || actionType === "dictionary") {
             baseColumns.push(
                 columnHelper.accessor("category", {
                     header: "Category",

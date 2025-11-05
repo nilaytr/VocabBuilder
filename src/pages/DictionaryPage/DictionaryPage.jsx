@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectOwnWords, selectTotalPages } from "../../redux/word/selectors";
 import { ownWord, deleteWord } from "../../redux/word/operations";
-import Dashboard from "../../components/Dashboard/Dashboard";
+import Dashboard from "../../components/Dashboard/DashBoard";
 import WordsTable from "../../components/WordsTable/WordsTable";
 import WordsPagination from "../../components/WordsPagination/WordsPagination";
 

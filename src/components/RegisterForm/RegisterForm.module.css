@@ -1,0 +1,168 @@
+.registerContainer {
+    max-width: 628px;
+    max-height: 592px;
+    padding: 32px 16px;
+    margin-top: 50px;
+    margin-left: 150px;
+    border-radius: 30px;
+    background-color: rgba(133, 170, 159, 0.1);
+}
+
+.titleForm {
+    font-family: "FixelDisplay", sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -2%;
+    margin-top: 15px;
+    margin-left: 64px;
+    margin-right: 64px;
+}
+
+.textForm {
+    font-family: "FixelDisplay", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 0%;
+    color: rgba(18, 20, 23, 0.8);
+    margin-top: 20px;
+    margin-left: 64px;
+    margin-right: 64px;
+}
+
+.registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-left: 64px;
+    margin-right: 64px;
+    margin-top: 30px;
+}
+
+.registerLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.inputRegister {
+    position: relative;
+    max-width: 500px;
+    max-height: 56px;
+    margin-bottom: 14px;
+}
+
+.input {
+    font-family: "FixelDisplay", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    width: 100%;
+    border: 1px solid rgba(18, 20, 23, 0.1);
+    border-radius: 15px;
+    padding-left: 18px;
+    background-color: transparent;
+    outline: none;
+    height: 56px;
+}
+
+.input:hover,
+.input:focus,
+.input:active {
+    border-color: #85AA9F;
+}
+
+.input::placeholder {
+    color: #121417;
+    opacity: 1;
+    font-family: "FixelDisplay", sans-serif;
+}
+
+.iconEye {
+    position: absolute;
+    fill: transparent;
+    width: 20px;
+    height: 20px;
+    top: 33%;
+    right: 20px;
+    cursor: pointer;
+}
+
+.registerButton {
+    font-family: "FixelDisplay", sans-serif;
+    border-radius: 30px;
+    color: #FCFCFC;
+    font-size: 18px;
+    letter-spacing: 0%;
+    line-height: 28px;
+    font-weight: 700;
+    background-color: #85AA9F;
+    border: none;
+    height: 56px;
+    margin-bottom: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.registerButton:hover,
+.registerButton:focus,
+.registerButton:active {
+    background-color: #A5C0B8;
+}
+
+.validationRegister {
+    position: absolute;
+    bottom: -20px;
+    display: flex;
+    gap: 5px;
+}
+
+.errorMessage {
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 1%;
+    color: #D80027;
+}
+
+.successMessage {
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 1%;
+    color: #3CBF61;
+}
+
+.error {
+    border-color: #D80027;
+}
+
+.valid {
+    border-color: #3CBF61;
+}
+
+.login {
+    font-family: "FixelDisplay", sans-serif;
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0%;
+    text-decoration-line: underline;
+    color: rgba(18, 20, 23, 0.5);
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin-top: -10px;
+}
+
+.login:hover,
+.login:active,
+.login:focus {
+    color: #121417;
+}

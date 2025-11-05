@@ -57,12 +57,12 @@ const RegisterForm = ({ onSuccess }) => {
 
     return (
         <>
-            <div className={css.registerForm}>
-                <h1>Register</h1>
-                <p>To start using our services, please fill out the registration form below. All fields are mandatory:</p>
-                <form onSubmit={handleSubmit(onSubmit)}>  
+            <div className={css.registerContainer}>
+                <h1 className={css.titleForm}>Register</h1>
+                <p className={css.textForm}>To start using our services, please fill out the registration form below. All fields are mandatory:</p>
+                <form className={css.registerForm} onSubmit={handleSubmit(onSubmit)}>  
                     <div className={css.inputRegister}>
-                        <label htmlFor="name">Name</label>
+                        <label className={css.registerLabel} htmlFor="name">Name</label>
                         <input
                             className={`${css.input} ${errors.name ? css.error : dirtyFields.name ? css.valid : ""}`}
                             id="name" {...register("name")} placeholder="Name" type="text"
@@ -79,7 +79,7 @@ const RegisterForm = ({ onSuccess }) => {
                         )}
                     </div>
                     <div className={css.inputRegister}>
-                        <label htmlFor="email">Email</label>
+                        <label className={css.registerLabel} htmlFor="email">Email</label>
                         <input
                             className={`${css.input} ${errors.email ? css.error : dirtyFields.email ? css.valid : ""}`}
                             id="email" {...register("email")} placeholder="Email" type="email"
@@ -96,12 +96,12 @@ const RegisterForm = ({ onSuccess }) => {
                         )}
                     </div>
                     <div className={css.inputRegister}>
-                        <label htmlFor="password">Password</label>
+                        <label className={css.registerLabel} htmlFor="password">Password</label>
                         <input
                             className={`${css.input} ${errors.password ? css.error : dirtyFields.password ? css.valid : ""}`}
                             id="password" {...register("password")} placeholder="Password" type={showPassword ? "text" : "password"}
                         />
-                        <img onClick={togglePassword} src={showPassword ? "/icons/eye.svg" : "/icons/eye-off.svg"} alt="show" />
+                        <img onClick={togglePassword} className={css.iconEye} src={showPassword ? "/icons/eye.svg" : "/icons/eye-off.svg"} alt="show" />
                         {(dirtyFields.password || errors.password) && (
                             <div className={css.validationRegister}>
                                 <span className={errors.password ? css.errorIcon : css.successIcon}>

@@ -1,0 +1,52 @@
+.logoutContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.imageAvatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 30px;
+    margin-right: -38.5px;
+}
+
+.userAvatar {
+    position: relative;
+    margin-top: 15px;
+    left: 55%;
+    width: 16px;
+    height: 16px;
+    transform: translate(-50%, -50%);
+    filter: invert(100%);
+}
+
+.userName {
+    font-family: "FixelDisplay", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #121417;
+    position: relative;
+    left: -90px;
+}
+
+.logoutBtn {
+    background: none;
+    border: none;
+    color: #121417;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0%;
+    line-height: 24px;
+    cursor: pointer;
+    font-family: "FixelDisplay", sans-serif;
+}

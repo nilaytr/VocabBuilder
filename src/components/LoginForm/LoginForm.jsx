@@ -53,12 +53,12 @@ const RegisterForm = ({ onSuccess }) => {
 
     return (
         <>
-            <div>
-                <h1>Login</h1>
-                <p>Please enter your login details to continue using our service:</p>
-                <form onSubmit={handleSubmit(onSubmit)}>
+            <div className={css.loginContainer}>
+                <h1 className={css.titleForm}>Login</h1>
+                <p className={css.textForm}>Please enter your login details to continue using our service:</p>
+                <form className={css.loginForm} onSubmit={handleSubmit(onSubmit)}>
                     <div className={css.inputLogin}>
-                        <label htmlFor="email">Email</label>
+                        <label className={css.loginLabel} htmlFor="email">Email</label>
                         <input
                             className={`${css.input} ${errors.email ? css.error : dirtyFields.email ? css.valid : ""}`}
                             id="email" {...register("email")} placeholder="Email" type="email"
@@ -75,12 +75,12 @@ const RegisterForm = ({ onSuccess }) => {
                         )}
                     </div>
                     <div className={css.inputLogin}>
-                        <label htmlFor="password">Password</label>
+                        <label className={css.loginLabel} htmlFor="password">Password</label>
                         <input
                             className={`${css.input} ${errors.password ? css.error : dirtyFields.password ? css.valid : ""}`}
                             id="password" {...register("password")} placeholder="Password" type={showPassword ? "text" : "password"}
                         />
-                        <img onClick={togglePassword} src={showPassword ? "/icons/eye.svg" : "/icons/eye-off.svg"} alt="show" />
+                        <img onClick={togglePassword} className={css.iconEye} src={showPassword ? "/icons/eye.svg" : "/icons/eye-off.svg"} alt="show" />
                         {(dirtyFields.password || errors.password) && (
                             <div className={css.validationLogin}>
                                 <span className={errors.password ? css.errorIcon : css.successIcon}>

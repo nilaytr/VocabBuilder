@@ -12,7 +12,7 @@ const LogoutUser = () => {
     };
     
     return (
-        <div className={css.userContainer}>
+        <div className={css.logoutContainer}>
             {user && (
                 <div className={css.userBlock}>
                     <div className={css.avatarWrapper}>

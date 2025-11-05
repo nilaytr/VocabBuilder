@@ -6,14 +6,14 @@ import css from "./Dashboard.module.css";
 
 const Dashboard = ({ onFilterChange, pageType }) => {
     return (
-        <div>
+        <div className={css.dashboardContainer}>
             <Filters onFilterChange={onFilterChange} />
-            <div>
+            <div className={css.statisticsContainer}>
                 <Statistics />
-                <div>
+                <div className={css.trainContainer}>
                     {pageType === "dictionary" && <AddWordForm />}
                     <Link to="/training" className={css.trainLink}>Train oneself
-                        <img src="/icons/arrow.svg" alt="arrow" />
+                        <img src="/icons/arrow.svg" alt="arrow" className={css.arrowIcon} />
                     </Link>
                 </div>
             </div>

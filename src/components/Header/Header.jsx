@@ -9,14 +9,14 @@ const Header = () => {
     const isLoggedIn = useSelector(selectIsLoggedIn);
 
     return (
-        <header>
-            <div>
-                <NavLink to="/dictionary">
-                    <img src="/icons/logo.svg" className={css.logoText} alt="logo" />
+        <header className={css.headerContainer}>
+            <div className={css.header}>
+                <NavLink to="/dictionary" className={css.logoContainer}>
+                    <img src="/icons/logo.svg" className={css.logoIcon} alt="logo" />
                 </NavLink>
                 {isLoggedIn && (
                     <>
-                        <div>
+                        <div className={css.navigation}>
                             <Navigaton />
                         </div>
                         <div className={css.navUserWrap}>

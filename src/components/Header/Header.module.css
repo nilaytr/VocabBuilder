@@ -1,0 +1,29 @@
+.header {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+}
+
+.logoContainer {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.headerContainer {
+    background-color: #FFFFFF;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
