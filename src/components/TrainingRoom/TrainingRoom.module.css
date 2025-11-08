@@ -1,0 +1,170 @@
+.progressContainer {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 16px;
+    margin-top: 24px;
+    padding-right: 22px;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.answerContainer {
+    width: 100%;
+    width: 1240px;
+    height: 302px;
+    padding: 22px;
+    background-color: #FCFCFC;
+    border-right: 1px solid #DBDBDB;
+    position: relative;
+}
+
+.inputAnswer {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 20px;
+    width: 100%;
+    font-weight: 500;
+    line-height: 30px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #121417;
+    letter-spacing: 0px;
+}
+
+.inputAnswer::placeholder {
+    color: #121417;
+    opacity: 1;
+}
+
+.btnNext {
+    font-family: "FixelDisplay", sans-serif;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 100%;
+    color: rgba(18, 20, 23, 0.5);
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    bottom: 18px;
+    left: 22px;
+    cursor: pointer;
+}
+
+.iconArrow {
+    width: 20px;
+    height: 20px;
+}
+
+.btnNext:hover {
+    color: #121417;
+}
+
+.labelWrap {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    position: absolute;
+    right: 22px;
+    bottom: 250px;
+}
+
+.labelAnswer {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #121417;
+}
+
+.trainFlag {
+    width: 28px;
+    height: 28px;
+}
+
+.taskTrain {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: 0px;
+    color: #121417;
+}
+
+.spanCountry {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #121417;
+}
+
+.taskContainer {
+    width: 100%;
+    height: 302px;
+    padding: 22px;
+    background-color: #FCFCFC;
+    border-radius: 0px 0px 8px 8px;
+    position: relative;
+}
+
+.trainingBtns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 45px;
+}
+
+.btnTrainSave {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #FCFCFC;
+    background-color: #85AA9F;
+    border: none;
+    border-radius: 30px;
+    width: 203px;
+    height: 56px;
+    cursor: pointer;
+}
+
+.btnTrainSave:hover,
+.btnTrainSave:focus,
+.btnTrainSave:active {
+    background-color: #A5C0B8;
+}
+
+.btnTrainCancel {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #85AA9F;
+    border: 1px solid #85AA9F;
+    border-radius: 30px;
+    width: 203px;
+    height: 56px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.btnTrainCancel:hover,
+.btnTrainCancel:focus,
+.btnTrainCancel:active {
+    color: #121417;
+}
+
+.errorTraining {
+    color: #D80027;
+    font-size: 12px;
+}

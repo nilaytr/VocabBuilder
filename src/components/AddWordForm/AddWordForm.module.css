@@ -1,0 +1,283 @@
+.addWordBtn {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    gap: 8px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.addWordBtn:hover {
+    color: rgba(18, 20, 23, 0.5);
+}
+
+.plusIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.addWordModal {
+    width: 100%;
+}
+
+.addWordTitle {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 48px;
+    letter-spacing: -2%;
+    color: #FCFCFC;
+    margin-left: 64px;
+    margin-bottom: 20px;
+}
+
+.addWordDescr {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 0%;
+    color: rgba(252, 252, 252, 0.8);
+    margin-left: 64px;
+    margin-right: 64px;
+    margin-bottom: 50px;
+    max-width: 500px;
+    max-height: 90px;
+}
+
+.selectCategory {
+    margin-left: 64px;
+    margin-top: -20px;
+    width: 220px;
+    height: 48px;
+    position: relative;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.selectCategory span {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #FCFCFC;
+    width: 150px;
+    margin-left: -10px;
+}
+
+.selectCategory img {
+    color: #FCFCFC;
+    width: 12px;
+    height: 12px;
+    margin-right: 40px;
+    top: 38%;
+}
+
+.buttonType {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    visibility: hidden;
+    margin-left: 40px;
+    margin-top: 10px;
+}
+
+.buttonType.visible {
+    visibility: visible;
+}
+
+.radioContainer {
+    font-family: "FixelDisplay", sans-serif;
+    position: relative;
+    padding-left: 26px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 100%;
+    font-weight: 400;
+    letter-spacing: 0%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.radioContainer input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmarkAdd {
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    background-color: transparent;
+    border-radius: 10px;
+    border: 2px solid rgba(252, 252, 252, 0.3);
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.radioContainer:hover .checkmarkAdd {
+    border: 2px solid #FCFCFC;
+}
+
+.radioContainer input:checked~.checkmarkAdd {
+    box-sizing: border-box;
+    border: 2px solid #FCFCFC;
+    border-radius: 10px;
+}
+
+.checkmarkAdd::after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 2px;
+    left: 2.3px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #FCFCFC;
+}
+
+.radioContainer input:checked~.checkmarkAdd::after {
+    display: block;
+}
+
+.radioContainer:hover input~.checkmarkAdd::after {
+    display: block;
+}
+
+.radioIrregular {
+    font-family: "FixelDisplay", sans-serif;
+    font-weight: 400;
+    letter-spacing: 0%;
+    overflow: hidden;
+    visibility: hidden;
+    margin-top: 16px;
+    color: rgba(252, 252, 252, 0.8);
+    font-size: 12px;
+    line-height: 14px;
+    margin-left: 64px;
+}
+
+.radioIrregular.visible {
+    visibility: visible;
+}
+
+.labelCountry {
+    font-family: "FixelDisplay", sans-serif;
+    color: #FCFCFC;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-left: 450px;
+}
+
+.flag {
+    width: 30px;
+    height: 30px;
+}
+
+.inputCountry {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.inputForm {
+    width: 354px;
+    height: 56px;
+    background-color: transparent;
+    outline: none;
+    border: 1px solid rgba(252, 252, 252, 0.3);
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #FCFCFC;
+    padding: 0 12px;
+    margin-top: -35px;
+    margin-left: 64px;
+}
+
+.addWordBtns {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-top: 45px;
+    margin-left: 64px;
+    margin-right: 64px;
+}
+
+.addBtn {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #121417;
+    background-color: #FCFCFC;
+    border: none;
+    border-radius: 30px;
+    width: 245px;
+    height: 56px;
+    cursor: pointer;
+}
+
+.addBtn:hover,
+.addBtn:focus,
+.addBtn:active {
+    color: #85AA9F;
+}
+
+.cancelBtn {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #FCFCFC;
+    border: 1px solid rgba(252, 252, 252, 0.4);
+    border-radius: 30px;
+    width: 245px;
+    height: 56px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.cancelBtn:hover,
+.cancelBtn:focus,
+.cancelBtn:active {
+    background-color: #FCFCFC;
+    color: #121417;
+}
+
+.errorCategory {
+    position: absolute;
+    width: 200px;
+    font-size: 12px;
+    top: 60px;
+    left: 7px;
+    color: rgba(252, 252, 252, 0.8);
+}
+
+.errorInput {
+    position: absolute;
+    color: rgba(252, 252, 252, 0.8);
+    font-size: 12px;
+    top: 63px;
+    left: 70px;
+}

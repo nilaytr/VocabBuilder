@@ -34,7 +34,6 @@ const RegisterForm = ({ onSuccess }) => {
             const result = await dispatch(loginUser(values));
             
             if (result.meta.requestStatus === "fulfilled") {
-                alert("Login successful!");
                 onSuccess?.();
             } else {
                 alert("Login failed. Please check your details.");

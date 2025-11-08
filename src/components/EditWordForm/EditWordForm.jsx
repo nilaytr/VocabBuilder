@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import { editWord } from "../../redux/word/operations";
 import Modal from "../Modal/Modal";
-// import css from "./EditWordForm.module.css";
+import css from "./EditWordForm.module.css";
 
 const EditWordForm = ({ word, onClose }) => {
     const validationSchema = Yup.object().shape({
@@ -42,35 +42,37 @@ const EditWordForm = ({ word, onClose }) => {
 
     return (
         <Modal isOpen={true} onClose={onClose}>
-            <div>
+            <div className={css.editWordModal}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div>
-                        <label htmlFor="ua">Ukrainian
-                            <img src="/icons/ukraine.svg" alt="ua" />
+                    <div className={css.inputCountryEdit}>
+                        <label htmlFor="ua" className={css.labelCountryEdit}>Ukrainian
+                            <img src="/icons/ukraine.svg" alt="ua" className={css.flagEdit} />
                         </label>
                         <input
                             type="text"
                             id="ua"
                             defaultValue={word.ua}
                             {...register("ua")}
+                            className={css.inputEditForm}
                         />
-                        {errors.ua && (<p>{errors.ua.message}</p>)}
+                        {errors.ua && (<p className={css.errorEdit}>{errors.ua.message}</p>)}
                     </div>
-                    <div>
-                        <label htmlFor="en">English
-                            <img src="/icons/united-kingdom.svg" alt="uk" />
+                    <div className={css.inputCountryEdit}>
+                        <label htmlFor="en" className={css.labelCountryEdit}>English
+                            <img src="/icons/united-kingdom.svg" alt="uk" className={css.flagEdit} />
                         </label>
                         <input
                             type="text"
                             id="en"
                             defaultValue={word.en}
                             {...register("en")}
+                            className={css.inputEditForm}
                         />
-                        {errors.en && (<p>{errors.en.message}</p>)}
+                        {errors.en && (<p className={css.errorEdit}>{errors.en.message}</p>)}
                     </div>
-                    <div>
-                        <button type="submit">Save</button>
-                        <button type="button" onClick={onClose}>Cancel</button>
+                    <div className={css.editWordBtns}>
+                        <button type="submit" className={css.editBtn}>Save</button>
+                        <button type="button" onClick={onClose} className={css.cancelEditBtn}>Cancel</button>
                     </div>
                 </form>
             </div>

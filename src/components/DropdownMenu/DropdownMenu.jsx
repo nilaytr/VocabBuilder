@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-//import css from "./DropdownMenu.module.css";
+import css from "./DropdownMenu.module.css";
 
 const DropdownMenu = ({
     options,
@@ -33,13 +33,13 @@ const DropdownMenu = ({
     }, [defaultOption]);
 
     return (
-        <div ref={dropDownRef}>
-            <div onClick={() => setIsOpen(!isOpen)}>
-                <img src="/icons/category.svg" alt="category" />
-                <span>{selectedOption}</span>
+        <div ref={dropDownRef} className={css.dropdown}>
+            <div onClick={() => setIsOpen(!isOpen)} className={css.dropdownBtn}>
+                <img src="/icons/category.svg" alt="category" className={css.categoryIcon} />
+                <span className={css.optionSpan}>{selectedOption}</span>
             </div>
             {isOpen && (
-                <div>
+                <div className={css.listFilter}>
                     <ul>
                         {options.map((option) => (
                             <li key={option} onClick={() => handleSelectOption(option)}>

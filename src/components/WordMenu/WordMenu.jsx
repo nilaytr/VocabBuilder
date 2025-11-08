@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Popover from '@mui/material/Popover';
 import EditWordForm from "../EditWordForm/EditWordForm";
-//import css from "./WordMenu.module.css";
+import css from "./WordMenu.module.css";
 
 const WordMenu = ({ word, handleActions }) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -34,9 +34,9 @@ const WordMenu = ({ word, handleActions }) => {
     const id = open ? "simple-popover" : undefined;
 
     return (
-        <div>
-            <button aria-describedby={id} onClick={handleClick}>
-                <img src="/icons/Dots.svg" alt="dots" />
+        <div className={css.wordMenuDiv}>
+            <button aria-describedby={id} onClick={handleClick} className={css.buttonDots}>
+                <img src="/icons/Dots.svg" alt="dots" className={css.dotsIcon} />
             </button>
             <Popover
                 id={id}
@@ -52,12 +52,12 @@ const WordMenu = ({ word, handleActions }) => {
                     horizontal: 'center',
                 }}
             >
-                <div>
-                    <button onClick={handleEdit}>Edit
-                        <img src="/icons/pencil-1.svg" alt="pencil" />
+                <div className={css.editDiv}>
+                    <button onClick={handleEdit} className={css.menuBtn}>Edit
+                        <img src="/icons/pencil-1.svg" alt="pencil" className={css.menuIcon} />
                     </button>
-                    <button onClick={handleDelete}>Delete
-                        <img src="/icons/trash-03.svg" alt="trash" />
+                    <button onClick={handleDelete} className={css.menuBtn}>Delete
+                        <img src="/icons/trash-03.svg" alt="trash" className={css.menuIcon} />
                     </button>
                 </div>
             </Popover>

@@ -40,7 +40,6 @@ const DictionaryPage = () => {
     const handleActions = async (word, actionType) => {
         switch (actionType) {
             case "edit":
-                console.log(`edit: ${word._id}`);
                 break;
             case "delete":
                 await dispatch(deleteWord(word._id));

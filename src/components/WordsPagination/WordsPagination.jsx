@@ -44,7 +44,7 @@ const WordsPagination = ({ currentPage, totalPages, onPageChange }) => {
     const pages = useMemo(() => createPageNumbers(), [currentPage, totalPages]);
     
     return (
-        <div className={css.pagination}>
+        <div className={css.paginationContainer}>
             <button
                 className={css.buttonPage}
                 onClick={() => handleClick(1)}

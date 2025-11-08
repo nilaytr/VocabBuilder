@@ -34,11 +34,8 @@ const RegisterForm = ({ onSuccess }) => {
     const onSubmit = async (values) => {
         try {
             const result = await dispatch(registerUser(values));
-
-            console.log("Thunk result:", result);
             
             if (result.meta.requestStatus === "fulfilled") {
-                alert("Registration successful!");
                 onSuccess?.();
             } else {
                 alert("Registration failed. Please check your details.");

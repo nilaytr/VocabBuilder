@@ -1,0 +1,55 @@
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 38px;
+    gap: 6px;
+}
+
+.buttonPage {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(18, 20, 23, 0.1);
+    background-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.buttonPage:hover {
+    background-color: #A5C0B8;
+    border: none;
+}
+
+.buttonPage img {
+    width: 10px;
+    height: 10px;
+}
+
+.buttonPage:disabled {
+    cursor: not-allowed;
+}
+
+.btnNumber {
+    font-family: "FixelDisplay", sans-serif;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(18, 20, 23, 0.1);
+    background-color: transparent;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    cursor: pointer;
+}
+
+.btnNumber.active {
+    background-color: #85AA9F;
+    border: none;
+    color: #FFFFFF;
+}
+
+.btnNumber:hover {
+    background-color: #85AA9F;
+    border: none;
+    color: #FFFFFF;
+}

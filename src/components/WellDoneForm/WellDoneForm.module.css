@@ -1,0 +1,87 @@
+.wellDoneDiv {
+    width: 100%;
+}
+
+.wellDoneTitle {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 48px;
+    color: #FCFCFC;
+    text-align: center;
+    margin-top: -100px;
+    margin-bottom: 50px;
+}
+
+.correctTitle {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: rgba(252, 252, 252, 0.5);
+    margin-bottom: 8px;
+}
+
+.listsWrap {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.bookImg {
+    width: 212px;
+    height: 179px;
+    position: relative;
+    right: -10px;
+    bottom: -100px;
+}
+
+.openBookBig {
+    width: 100%;
+    height: 100%;
+}
+
+.result {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #FCFCFC;
+    text-transform: capitalize;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    hyphens: auto;
+    max-width: 200px;
+    gap: 10px;
+}
+
+.correct {
+    position: relative;
+    margin-left: 60px;
+}
+
+.mistake {
+    position: relative;
+    margin-right: 40px;
+}
+
+.mistakeTitle {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: rgba(252, 252, 252, 0.5);
+}
+
+.mistakeList {
+    margin-top: 8px;
+    margin-bottom: 50px;
+}
+
+.mistakeList li:not(:last-child) {
+    margin-bottom: 4px;
+}

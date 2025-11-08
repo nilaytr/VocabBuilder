@@ -1,0 +1,105 @@
+.editWordModal {
+    width: 100%;
+}
+
+.inputCountryEdit {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.labelCountryEdit {
+    font-family: "FixelDisplay", sans-serif;
+    color: #FCFCFC;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-left: 450px;
+}
+
+.inputEditForm {
+    width: 354px;
+    height: 56px;
+    background-color: transparent;
+    outline: none;
+    border: 1px solid rgba(252, 252, 252, 0.3);
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #FCFCFC;
+    padding: 0 12px;
+    margin-top: -35px;
+    margin-left: 64px;
+}
+
+.flagEdit {
+    width: 30px;
+    height: 30px;
+}
+
+.editWordBtns {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-top: 45px;
+    margin-left: 64px;
+    margin-right: 64px;
+}
+
+.editBtn {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #121417;
+    background-color: #FCFCFC;
+    border: none;
+    border-radius: 30px;
+    width: 245px;
+    height: 56px;
+    cursor: pointer;
+}
+
+.editBtn:hover,
+.editBtn:focus,
+.editBtn:active {
+    color: #85AA9F;
+}
+
+.cancelEditBtn {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0%;
+    color: #FCFCFC;
+    border: 1px solid rgba(252, 252, 252, 0.4);
+    border-radius: 30px;
+    width: 245px;
+    height: 56px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.cancelEditBtn:hover,
+.cancelEditBtn:focus,
+.cancelEditBtn:active {
+    background-color: #FCFCFC;
+    color: #121417;
+}
+
+.errorEdit {
+    position: absolute;
+    color: rgba(252, 252, 252, 0.8);
+    font-size: 12px;
+    top: 63px;
+    left: 70px;
+}

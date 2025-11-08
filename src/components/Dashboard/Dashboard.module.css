@@ -4,13 +4,16 @@
     gap: 19px;
     margin-bottom: 30px;
     margin-top: 32px;
+    min-height: 70px;
+    align-items: flex-start;
 }
 
 .statisticsContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 12px;
-    padding-left: 10px;
+    align-items: center;
+    margin-left: -120px;
 }
 
 .trainContainer {
@@ -29,6 +32,10 @@
     display: flex;
     gap: 10px;
     text-decoration: none;
+}
+
+.trainLink:hover {
+    color: rgba(18, 20, 23, 0.5);
 }
 
 .arrowIcon {

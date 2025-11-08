@@ -1,5 +1,58 @@
 .MuiPaper-root {
     border-radius: 15px;
     box-shadow: 0px 4px 47px 0px rgba(18, 20, 23, 0.08);
+}
+
+.buttonDots {
+    background-color: transparent;
+    border: none;
+}
+
+.wordMenuDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dotsIcon {
+    width: 16px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.buttonDots:hover .dotsIcon {
+    fill: #121417;
+}
+
+.editDiv {
     background-color: #FFFFFF;
+    width: 124px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    padding: 12px 24px 12px 24px;
+    border-radius: 15px;
+}
+
+.menuBtn {
+    font-family: "FixelDisplay", sans-serif;
+    color: #121417;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0%;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menuIcon {
+    width: 16px;
+    height: 16px;
+    fill: transparent;
 }

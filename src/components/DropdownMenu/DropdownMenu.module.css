@@ -1,0 +1,74 @@
+.dropdown {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.dropdownBtn {
+    font-family: "FixelDisplay", sans-serif;
+    border: 1px solid rgba(18, 20, 23, 0.1);
+    border-radius: 15px;
+    background-color: transparent;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0%;
+    width: 164px;
+    height: 48px;
+    outline: none;
+    cursor: pointer;
+}
+
+.categoryIcon {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: 36%;
+    right: 20px;
+    cursor: pointer;
+}
+
+.optionSpan {
+    font-family: "FixelDisplay", sans-serif;
+    margin-top: -2px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #121417;
+    align-items: center;
+    display: flex;
+
+}
+
+.listFilter {
+    position: absolute;
+    margin-top: 10px;
+    overflow-y: auto;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 47px 0px rgba(18, 20, 23, 0.08);
+    background: #FFFFFF;
+    z-index: 1000;
+    width: 189px;
+    height: 400px;
+    top: calc(100% + 4px);
+}
+
+.listFilter li {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0%;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.listFilter li:last-child {
+    margin-bottom: 0;
+}

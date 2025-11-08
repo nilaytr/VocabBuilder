@@ -81,16 +81,16 @@ const AddWordForm = () => {
 
     return (
         <>
-            <button type="button" onClick={handleClick}>Add word
-                <img src="/icons/plus.svg" alt="plus" />
+            <button type="button" onClick={handleClick} className={css.addWordBtn}>Add word
+                <img src="/icons/plus.svg" alt="plus" className={css.plusIcon} />
             </button>
             {isModalOpen && (
                 <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-                    <div>
-                        <h2>Add word</h2>
-                        <p>Adding a new word to the dictionary is an important step in enriching the language base and expanding the vocabulary.</p>
+                    <div className={css.addWordModal}>
+                        <h2 className={css.addWordTitle}>Add word</h2>
+                        <p className={css.addWordDescr}>Adding a new word to the dictionary is an important step in enriching the language base and expanding the vocabulary.</p>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <div>
+                            <div className={css.selectCategory}>
                                 <DropdownMenu
                                     defaultOption="Select a category"
                                     onSelect={(option) => {
@@ -99,53 +99,57 @@ const AddWordForm = () => {
                                     }}
                                     options={categories.filter((cat) => cat !== "all")}
                                 />
-                                {errors.category && (<p>{errors.category.message}</p>)}
+                                {errors.category && (<p className={css.errorCategory}>{errors.category.message}</p>)}
                             </div>
                             <div className={css.buttonType + (selectedCategory === "verb" ? " " + css.visible : "")}>
-                                <label>Regular
+                                <label className={css.radioContainer}>Regular
                                     <input
                                         type="radio"
                                         value="false"
                                         {...register("isIrregular")}
                                     />
+                                <span className={css.checkmarkAdd}></span>   
                                 </label>
-                                <label>Irregular
+                                <label className={css.radioContainer}>Irregular
                                     <input
                                         type="radio"
                                         value="true"
                                         {...register("isIrregular")}
                                     />
+                                <span className={css.checkmarkAdd}></span>  
                                 </label>
-                                {errors.isIrregular && (<p>{errors.isIrregular.message}</p>)}
+                                {errors.isIrregular && (<p className={css.errorRadio}>{errors.isIrregular.message}</p>)}
                             </div>
                             <div className={css.radioIrregular + (isIrregular === "true" ? " " + css.visible : "")}>
                                 <p>English verb must be in the form of 'verb-verb-verb'.</p>
                             </div>
-                            <div>
-                                <label htmlFor="ua">Ukrainian
-                                    <img src="/icons/ukraine.svg" alt="ua" />
+                            <div className={css.inputCountry}>
+                                <label htmlFor="ua" className={css.labelCountry}>Ukrainian
+                                    <img src="/icons/ukraine.svg" alt="ua" className={css.flag} />
                                 </label>
                                 <input
                                     type="text"
                                     id="ua"
                                     {...register("ua")}
+                                    className={css.inputForm}
                                 />
-                                {errors.ua && (<p>{errors.ua.message}</p>)}
+                                {errors.ua && (<p className={css.errorInput}>{errors.ua.message}</p>)}
                             </div>
-                            <div>
-                                <label htmlFor="en">English
-                                    <img src="/icons/united-kingdom.svg" alt="uk" />
+                            <div className={css.inputCountry}>
+                                <label htmlFor="en" className={css.labelCountry}>English
+                                    <img src="/icons/united-kingdom.svg" alt="uk" className={css.flag} />
                                 </label>
                                 <input
                                     type="text"
                                     id="en"
                                     {...register("en")}
+                                    className={css.inputForm}
                                 />
-                                {errors.en && (<p>{errors.en.message}</p>)}
+                                {errors.en && (<p className={css.errorInput}>{errors.en.message}</p>)}
                             </div>
-                            <div>
-                                <button type="submit">Add</button>
-                                <button type="button" onClick={handleCloseModal}>Cancel</button>
+                            <div className={css.addWordBtns}>
+                                <button type="submit" className={css.addBtn}>Add</button>
+                                <button type="button" onClick={handleCloseModal} className={css.cancelBtn}>Cancel</button>
                             </div>
                         </form>
                     </div>

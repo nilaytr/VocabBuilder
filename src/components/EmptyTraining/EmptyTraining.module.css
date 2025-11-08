@@ -1,0 +1,89 @@
+.emptyTraining {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    margin: 0 auto;
+}
+
+.reportImg {
+    width: 144px;
+    height: 166px;
+}
+
+.reportImg img {
+    width: 100%;
+    height: 100%;
+}
+
+.reportContent {
+    display: flex;
+    flex-direction: column;
+    width: 288px;
+}
+
+.reportTitle {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: 0%;
+    margin-bottom: 16px;
+    color: #121417;
+}
+
+.reportText {
+    font-family: "FixelDisplay", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0%;
+    color: #121417;
+}
+
+.reportBtns {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 132px;
+}
+
+.linkAddBtn {
+    border-radius: 30px;
+    background-color: #85AA9F;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    color: #FCFCFC;
+    border: none;
+    width: 215px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.linkAddBtn:hover,
+.linkAddBtn:focus,
+.linkAddBtn:active {
+    background-color: #A5C0B8;
+}
+
+.trainCancelBtn {
+    width: 203px;
+    height: 56px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    border: 1px solid #85AA9F;
+    background-color: transparent;
+    color: #85AA9F;
+}
+
+.trainCancelBtn:hover,
+.trainCancelBtn:focus,
+.trainCancelBtn:active {
+    background-color: #85AA9F;
+    color: #FCFCFC;
+}
