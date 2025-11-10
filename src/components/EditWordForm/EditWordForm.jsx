@@ -10,7 +10,13 @@ const EditWordForm = ({ word, onClose }) => {
     const validationSchema = Yup.object().shape({
         en: Yup.string()
             .required("English word is required.")
-            .matches(/\b[A-Za-z'-]+(?:\s+[A-Za-z'-]+)*\b/, "Invalid English format."),
+            .when([], {
+                is: () => word?.category === "verb" && word?.isIrregular === true,
+                then: (schema) =>
+                    schema.matches(/^[A-Za-z'-]+(?:-[A-Za-z'-]+){2}$/, "Irregular verbs must be in the form 'verb-verb-verb'."),
+                otherwise: (schema) =>
+                    schema.matches(/^[A-Za-z'-]+(?:\s+[A-Za-z'-]+)*$/, "Invalid English format."),
+            }),
         ua: Yup.string()
             .required("Ukrainian word is required.")
             .matches(/^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ\s]+$/u, "Invalid Ukrainian format."),

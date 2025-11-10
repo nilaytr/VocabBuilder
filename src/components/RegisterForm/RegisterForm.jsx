@@ -7,14 +7,14 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../redux/auth/operations";
 import css from "./RegisterForm.module.css";
 
-const RegisterForm = ({ onSuccess }) => {
+const RegisterForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
         email: Yup.string().matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "Invalid email address.").required("Required"),
-        password: Yup.string().matches(/^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/, "Password must contain at least 6 letters and 1 number.").required("Required"),
+        password: Yup.string().matches( /^(?=(?:.*[A-Za-z]){6,})(?=.*\d)[A-Za-z\d]{7,}$/, "Password must contain at least 6 letters and 1 number.").required("Required"),
     });
 
     const {
@@ -36,21 +36,19 @@ const RegisterForm = ({ onSuccess }) => {
             const result = await dispatch(registerUser(values));
             
             if (result.meta.requestStatus === "fulfilled") {
-                onSuccess?.();
+                navigate("/dictionary");
             } else {
                 alert("Registration failed. Please check your details.");
             }
-        } catch (err) {
-            console.error("Registration error:", err);
+        } catch (error) {
+            console.error("Registration error:", error);
             alert("An unexpected error occurred. Please try again later.");
         }
     };
 
     const [showPassword, setShowPassword] = useState(false);
 
-    const togglePassword = () => {
-        setShowPassword(!showPassword);
-    };
+    const togglePassword = () => setShowPassword((prev) => !prev);
 
     return (
         <>

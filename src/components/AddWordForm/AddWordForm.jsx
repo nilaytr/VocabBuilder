@@ -16,13 +16,11 @@ const AddWordForm = () => {
             .required("English word is required.")
             .when(["category", "isIrregular"], {
                 is: (category, isIrregular) => category === "verb" && isIrregular === "true",
-                then: (schema) => schema
-                    .matches(/^\b[A-Za-z'-]+-[A-Za-z'-]+-[A-Za-z'-]+\b$/, "English verb must be in the form of 'verb-verb-verb'.")
-                    .required("English word is required for irregular verbs."),
-                otherwise: (schema) => schema
-                    .matches(/\b[A-Za-z'-]+(?:\s+[A-Za-z'-]+)*\b/),
-            })
-            .matches(/\b[A-Za-z'-]+(?:\s+[A-Za-z'-]+)*\b/, "Invalid English format."),
+                then: (schema) =>
+                    schema.matches(/^[A-Za-z'-]+(?:-[A-Za-z'-]+){2}$/, "English verb must be in the form of 'verb-verb-verb'."),
+                otherwise: (schema) =>
+                    schema.matches(/^[A-Za-z'-]+(?:\s+[A-Za-z'-]+)*$/, "Invalid English format."),
+            }),
         ua: Yup.string()
             .required("Ukrainian word is required.")
             .matches(/^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ\s]+$/u, "Invalid Ukrainian format."),
