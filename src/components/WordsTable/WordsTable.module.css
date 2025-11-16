@@ -99,3 +99,70 @@
 .addBtnTable:hover {
     color: rgba(18, 20, 23, 0.5);
 }
+
+@media screen and (max-width: 374px) {
+    .wordsTableDiv {
+        max-width: 704px;
+        margin-left: 400px;
+    }
+
+    .tableHeader,
+    .tableItem {
+        font-size: 14px;
+        padding: 12px;
+        white-space: nowrap;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+    .wordsTableDiv {
+        max-width: 704px;
+        margin-left: 150px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+    .wordsTableDiv {
+        max-width: 704px;
+        margin-left: 50px;  
+    }
+    
+    .tableHeader:nth-child(1) {
+        width: 160px;
+    }
+    
+    .tableHeader:nth-child(2) {
+        width: 169px;
+    }
+    
+    .tableHeader:nth-child(3) {
+        width: 151px;
+    }
+    
+    .tableHeader:nth-child(4) {
+        width: 122px;
+    }
+    
+    .tableHeader:nth-child(5) {
+        width: 66px;
+    }
+    
+    .tableHeader {
+        font-size: 18px;
+        padding: 22px 20px;
+    }
+    
+    .tableItem {
+        font-size: 18px;
+        padding: 22px 20px;
+    }
+    
+    .iconCountry {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .addBtnTable {
+        display: block;
+    }
+}

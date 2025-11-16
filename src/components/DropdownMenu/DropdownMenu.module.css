@@ -72,3 +72,15 @@
 .listFilter li:last-child {
     margin-bottom: 0;
 }
+
+@media screen and (max-width: 374px) {
+    .categoryIcon {
+        left: 140px;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+    .categoryIcon {
+        left: 140px;
+    }
+}

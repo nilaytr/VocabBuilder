@@ -53,3 +53,21 @@
     border: none;
     color: #FFFFFF;
 }
+
+@media screen and (max-width: 374px) {
+    .paginationContainer {
+        margin-left: 400px;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+    .paginationContainer {
+        margin-left: 300px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+    .paginationContainer {
+        margin-left: 150px;
+    }
+}

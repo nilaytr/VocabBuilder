@@ -115,3 +115,27 @@
 .radioContainer:hover input~.checkmark::after {
     display: block;
 }
+
+@media screen and (max-width: 374px) {
+    .filtersContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 400px;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+    .filtersContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-left: 150px;
+        max-width: 343px;
+    }
+    
+    .filterInput {
+        max-width: 343px;
+        margin-left: 8px;
+    }
+}

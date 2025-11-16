@@ -4,10 +4,10 @@ import css from "./LoginPage.module.css";
 
 const LoginPage = () => {
     return (
-        <>
+        <div className={css.loginPage}>
             <LoginForm />
             <img src={background} alt="background" className={css.background} />
-        </>
+        </div>
     );
 };
 

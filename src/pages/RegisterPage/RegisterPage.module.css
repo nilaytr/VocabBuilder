@@ -3,3 +3,34 @@
     margin-top: -558px;
     margin-left: 750px;
 }
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+    .registerPage {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: center;
+        width: 120%;
+        margin-left: 400px;
+    }
+
+    .background {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .registerPage {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: center;
+        width: 120%;
+        margin-left: 300px;
+        margin-top: -100px;
+    }
+
+    .background {
+        margin-right: 1350px;
+    }
+}

@@ -166,3 +166,18 @@
 .login:focus {
     color: #121417;
 }
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+    .registerContainer {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .registerContainer {
+        display: flex;
+        flex-direction: column;
+        margin-top: 600px;
+    }
+}

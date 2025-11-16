@@ -42,3 +42,39 @@
     width: 20px;
     height: 20px;
 }
+
+@media screen and (max-width: 374px) {
+    .statisticsContainer {
+        flex-direction: row;
+        margin-top: 100px;
+        margin-left: -350px;
+    }
+    
+    .trainContainer {
+        margin-left: -400px;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+    .statisticsContainer {
+        flex-direction: row;
+        margin-top: 100px;
+        margin-left: -600px;
+    }
+    
+    .trainContainer {
+        margin-left: -400px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+    .statisticsContainer {
+        flex-direction: row;
+        margin-top: 100px;
+        margin-left: -700px;
+    }
+
+    .trainContainer {
+        margin-left: -400px;
+    }
+}
