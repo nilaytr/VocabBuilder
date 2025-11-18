@@ -13,7 +13,7 @@ const RegisterForm = () => {
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
-        email: Yup.string().email("Invalid email address.").required("Required"),
+        email: Yup.string().matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/).email("Invalid email address.").required("Required"),
         password: Yup.string().matches(/^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/, "Password must contain at least 6 letters and 1 number.").required("Required"),
     });
 
