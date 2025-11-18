@@ -14,7 +14,7 @@ const RegisterForm = () => {
     const validationSchema = Yup.object().shape({
         name: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
         email: Yup.string().email("Invalid email address.").required("Required"),
-        password: Yup.string().matches( /^(?=(?:.*[A-Za-z]){6,})(?=.*\d)[A-Za-z\d]{7,}$/, "Password must contain at least 6 letters and 1 number.").required("Required"),
+        password: Yup.string().matches(/^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/, "Password must contain at least 6 letters and 1 number.").required("Required"),
     });
 
     const {
@@ -61,7 +61,7 @@ const RegisterForm = () => {
                         <label className={css.registerLabel} htmlFor="name">Name</label>
                         <input
                             className={`${css.input} ${errors.name ? css.error : dirtyFields.name ? css.valid : ""}`}
-                            id="name" {...register("name")} placeholder="Name" type="text"
+                            id="name" {...register("name")} placeholder="Name" type="text" name="name"
                         />
                         {(dirtyFields.name || errors.name) && (
                             <div className={css.validationRegister}>
@@ -78,7 +78,7 @@ const RegisterForm = () => {
                         <label className={css.registerLabel} htmlFor="email">Email</label>
                         <input
                             className={`${css.input} ${errors.email ? css.error : dirtyFields.email ? css.valid : ""}`}
-                            id="email" {...register("email")} placeholder="Email" type="email"
+                            id="email" {...register("email")} placeholder="Email" type="email" name="email"
                         />
                         {(dirtyFields.email || errors.email) && (
                             <div className={css.validationRegister}>
@@ -95,7 +95,7 @@ const RegisterForm = () => {
                         <label className={css.registerLabel} htmlFor="password">Password</label>
                         <input
                             className={`${css.input} ${errors.password ? css.error : dirtyFields.password ? css.valid : ""}`}
-                            id="password" {...register("password")} placeholder="Password" type={showPassword ? "text" : "password"}
+                            id="password" {...register("password")} placeholder="Password" type={showPassword ? "text" : "password"} name="password"
                         />
                         <img onClick={togglePassword} className={css.iconEye} src={showPassword ? "/icons/eye.svg" : "/icons/eye-off.svg"} alt="show" />
                         {(dirtyFields.password || errors.password) && (
