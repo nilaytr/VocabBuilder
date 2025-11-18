@@ -168,3 +168,76 @@
     color: #D80027;
     font-size: 12px;
 }
+
+@media screen and (max-width: 374px) {
+    .inputContainer {
+        display: flex;
+        flex-direction: column;
+        margin-left: 300px;
+    }
+    
+    .answerContainer {
+        width: 343px;
+        border-bottom: 1px solid #DBDBDB;
+        border-right: none;
+    }
+    
+    .taskContainer {
+        width: 343px;  
+    }
+
+    .trainingBtns {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 45px;
+        margin-left: 350px;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+    .inputContainer {
+        display: flex;
+        flex-direction: column;
+        margin-left: 200px;
+    }
+
+    .answerContainer {
+        width: 343px;
+        border-bottom: 1px solid #DBDBDB;
+        border-right: none;
+    }
+
+    .taskContainer {
+        width: 343px;
+    }
+
+    .trainingBtns {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 45px;
+        margin-left: 270px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+    .inputContainer {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .answerContainer {
+        width: 704px;
+        height: 282px;
+        border-bottom: 1px solid #DBDBDB;
+        border-right: none;
+    }
+
+    .taskContainer {
+        width: 704px;
+        height: 282px;
+    }
+}

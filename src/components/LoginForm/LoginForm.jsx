@@ -12,7 +12,7 @@ const LoginForm = () => {
     const navigate = useNavigate();
     
     const validationSchema = Yup.object().shape({
-        email: Yup.string().matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "Invalid email address.").required("Required"),
+        email: Yup.string().email("Invalid email address.").required("Required"),
         password: Yup.string().matches(/^(?=(?:.*[A-Za-z]){6,})(?=.*\d)[A-Za-z\d]{7,}$/, "Password must contain at least 6 letters and 1 number.").required("Required"),
     });
 

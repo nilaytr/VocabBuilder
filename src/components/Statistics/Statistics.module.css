@@ -24,3 +24,17 @@
     letter-spacing: 0%;
     color: #121417;
 }
+
+@media screen and (max-width: 374px) {
+    .statistics {
+        top: 20px;
+        left: -50px;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+    .statistics {
+        top: 20px;
+        left: 190px;
+    }
+}

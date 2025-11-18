@@ -51,7 +51,8 @@
     }
     
     .trainContainer {
-        margin-left: -400px;
+        margin-top: 40px;
+        margin-left: -450px;
     }
 }
 
@@ -63,7 +64,8 @@
     }
     
     .trainContainer {
-        margin-left: -400px;
+        margin-top: 40px;
+        margin-left: -200px;
     }
 }
 

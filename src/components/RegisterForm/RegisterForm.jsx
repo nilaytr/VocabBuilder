@@ -13,7 +13,7 @@ const RegisterForm = () => {
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
-        email: Yup.string().matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, "Invalid email address.").required("Required"),
+        email: Yup.string().email("Invalid email address.").required("Required"),
         password: Yup.string().matches( /^(?=(?:.*[A-Za-z]){6,})(?=.*\d)[A-Za-z\d]{7,}$/, "Password must contain at least 6 letters and 1 number.").required("Required"),
     });
 
@@ -34,15 +34,16 @@ const RegisterForm = () => {
     const onSubmit = async (values) => {
         try {
             const result = await dispatch(registerUser(values));
-            
-            if (result.meta.requestStatus === "fulfilled") {
+
+            if (registerUser.fulfilled.match(result)) {
                 navigate("/dictionary");
-            } else {
-                alert("Registration failed. Please check your details.");
+            }
+            else if (registerUser.rejected.match(result)) {
+                alert(result.payload || "Registration failed. Please check your credentials.");
             }
         } catch (error) {
             console.error("Registration error:", error);
-            alert("An unexpected error occurred. Please try again later.");
+            alert(error?.message || "An unexpected error occurred. Please try again later.");
         }
     };
 

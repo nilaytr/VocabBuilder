@@ -19,7 +19,7 @@
     text-align: left;
     padding: 14px 10px;
     border-bottom: 1px solid #DBDBDB;
-    background-color: #FCFCFC;
+    background-color: rgba(133, 170, 159, 0.1);
     border-radius: 2px;
     font-size: 20px;
     font-weight: 500;
@@ -102,7 +102,7 @@
 
 @media screen and (max-width: 374px) {
     .wordsTableDiv {
-        max-width: 704px;
+        max-width: 500px;
         margin-left: 400px;
     }
 

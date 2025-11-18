@@ -61,3 +61,30 @@
 .logoutBtn:hover {
     color: rgba(18, 20, 23, 0.5);
 }
+
+@media screen and (max-width: 374px) {
+    .logoutContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: -300px;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+    .logoutContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: -300px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+    .logoutContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: -300px;
+    }
+}
